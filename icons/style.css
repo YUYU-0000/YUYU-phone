@@ -1,0 +1,1346 @@
+@import url("https://fontsapi.zeoseven.com/494/main/result.css");
+
+/* =======================================
+   第一部分：全局和手机外壳基础
+=======================================
+*/
+
+/* 基础设置：给整个网页打个底。就像你画画前得先铺一张纸，把所有元素的尺寸计算方式统一，不让它们乱跑。 */
+* {
+    box-sizing: border-box;
+}
+
+/* 网页身体：控制最外层的整个大背景，把所有的东西都放在屏幕正中间，背景设为深灰色，并且不让你用鼠标随便选中文本。 */
+body {
+    margin: 0;
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: transparent; 
+    -webkit-user-select: none;
+    user-select: none;
+    font-family: "KokoroMinchoutai", sans-serif;
+    font-weight: normal;
+}
+
+/* 手机外壳：这就是你看到的那个手机框框！规定了手机的宽度、高度、圆角，还加了点阴影让它看起来更立体，顺便贴了一张背景壁纸。 */
+.phone-frame {
+    width: 310px;  
+    height: 670px; 
+    border: none; 
+    border-radius: 36px;
+    box-shadow: 0 0 30px rgba(0,0,0,0.6);
+    background: url('https://cac-assets.oss-cn-shanghai.aliyuncs.com/cms/report/12d1d121/bVCgDuKc_vip.jpg') center/cover no-repeat;
+    position: relative;
+    overflow: hidden;
+}
+
+/* =======================================
+   第二部分：锁屏界面
+=======================================
+*/
+
+/* 锁屏时间：锁屏界面上那个大大的时间，放在靠上的位置。 */
+.time-display {
+    position: absolute;
+    top: 9%; 
+    left: 0;
+    width: 100%;
+    text-align: center;
+    color: white;
+    font-family: "AR PL UKai CN", serif; 
+    font-size: 48px; 
+    letter-spacing: 1px;
+}
+
+/* 锁屏日期：时间底下那排小一点的日期字。 */
+.date-display {
+    position: absolute;
+    top: 17%; 
+    left: 0;
+    width: 100%;
+    text-align: center;
+    color: rgba(255, 255, 255, 0.8);
+    font-family: "AR PL UKai CN", serif; 
+    font-size: 16px; 
+    letter-spacing: 2px;
+}
+
+/* 解锁按钮：在屏幕下方，中间那个圆圆的按钮。给它加了酷炫的发光阴影，还绑了一个叫“breathe（呼吸）”的动画。 */
+#unlock-btn {
+    position: absolute;
+    bottom: 20%;
+    left: 50%;
+    margin-left: -22px; 
+    width: 44px; 
+    height: 44px; 
+    background: transparent;
+    border-radius: 50%;
+    border: 3px solid #ffffff;
+    animation: breathe 3s infinite ease-in-out; 
+    box-shadow: -1.5px -1.5px 3px rgba(233, 30, 99, 0.8), inset -1.5px -1.5px 3px rgba(233, 30, 99, 0.8), 1.5px 1.5px 3px rgba(0, 255, 255, 0.8), inset 1.5px 1.5px 3px rgba(0, 255, 255, 0.8), 0 0 4px 1px rgba(255, 255, 255, 0.6), inset 0 0 1.5px 1px rgba(255, 255, 255, 0.5);
+    cursor: pointer;
+    z-index: 15;
+}
+
+/* 呼吸动画的魔法配方：控制按钮怎么从正常大小变成稍微大一点，光晕怎么跟着变，看起来就像在吸气呼气。 */
+@keyframes breathe {
+    0%, 100% {
+        transform: scale(1);
+        box-shadow: -1px -1px 2px rgba(233, 30, 99, 0.6), inset -1px -1px 2px rgba(233, 30, 99, 0.6), 1px 1px 2px rgba(0, 255, 255, 0.6), inset 1px 1px 2px rgba(0, 255, 255, 0.6), 0 0 3px rgba(255, 255, 255, 0.4), inset 0 0 1.5px rgba(255, 255, 255, 0.3);
+    }
+    50% {
+        transform: scale(1.08);
+        box-shadow: -2px -2px 4px rgba(233, 30, 99, 0.9), inset -2px -2px 4px rgba(233, 30, 99, 0.9), 2px 2px 4px rgba(0, 255, 255, 0.9), inset 2px 2px 4px rgba(0, 255, 255, 0.9), 0 0 5px 1px rgba(255, 255, 255, 0.7), inset 0 0 2px 1px rgba(255, 255, 255, 0.6);
+    }
+}
+
+/* 锁屏界面容器：包着锁屏内容的壳子，用来控制锁屏时候的淡入淡出动画。 */
+.screen-lock {
+    position: absolute; width: 100%; height: 100%;
+    transition: opacity 0.6s ease, transform 0.6s cubic-bezier(0.2, 0.8, 0.2, 1); 
+    z-index: 10;
+    transform: scale(1);
+}
+
+/* 桌面界面容器：锁屏打开后看到的桌面框框，一开始是隐藏（透明）的，并且稍微缩小了一点点。 */
+.screen-home {
+    position: absolute; 
+    top: 15px; bottom: 15px; left: 10px; right: 10px;
+    opacity: 0; 
+    pointer-events: none; 
+    z-index: 5;
+    border-radius: 26px; 
+    padding-top: 20px;
+    transform: scale(0.92); 
+    transition: transform 0.4s cubic-bezier(0.36, 0.66, 0.04, 1), opacity 0.3s ease;
+    transform-origin: center center;
+}
+
+/* 解锁后的魔法：当给手机加了 'unlocked' 这个状态时，桌面变亮放大，锁屏变透明消失。 */
+.unlocked .screen-home { 
+    opacity: 1; transform: scale(1); pointer-events: auto; 
+}
+.unlocked .screen-lock { 
+    opacity: 0; transform: scale(1.05); pointer-events: none; 
+}
+
+/* =======================================
+   第三部分：苹果风“灵动岛”
+=======================================
+*/
+
+/* 灵动岛本身：屏幕最顶上那个黑色的小胶囊。规定了它的长宽、背景黑、圆角。一开始它是隐身并且点不到的。 */
+.dynamic-island {
+    position: absolute;
+    top: -9px; 
+    left: 50%;
+    transform: translateX(-50%) translateY(0);
+    width: 82px; 
+    height: 22px; 
+    background-color: #000;
+    border: 1px solid rgba(255, 255, 255, 0.4); 
+    border-radius: 11px; 
+    z-index: 90; 
+    box-shadow: inset 0 0 4px rgba(255, 255, 255, 0.08), 0 4px 10px rgba(0,0,0,0.3);
+    transition: width 0.45s cubic-bezier(0.34, 1.8, 0.4, 1), height 0.3s ease, border-radius 0.3s ease;
+    opacity: 0;
+    pointer-events: none;
+    cursor: pointer;
+}
+
+/* 灵动岛激活：让它露出来，并且你可以点它了。 */
+.dynamic-island.active {
+    opacity: 1; pointer-events: auto;
+}
+
+/* 灵动岛缩小状态：变成一个小圆点。 */
+.dynamic-island.is-shrinking {
+    width: 22px; height: 22px; border-radius: 11px; 
+    transition: width 0.3s cubic-bezier(0.2, 0.8, 0.2, 1), height 0.3s ease, border-radius 0.3s ease;
+}
+
+/* 灵动岛果冻动画：给它加一个像果冻一样Q弹的展开动画效果。 */
+.dynamic-island.jelly-anim {
+    animation: jelly-bounce-anim 0.45s cubic-bezier(0.25, 1, 0.5, 1) forwards;
+}
+
+/* 果冻弹跳的详细动作：从圆点变成长条，中间还要拉伸、回弹一下。 */
+@keyframes jelly-bounce-anim {
+    0%   { transform: translateX(-50%) translateY(0); width: 22px; height: 22px; border-radius: 11px; }
+    45%  { transform: translateX(-50%) translateY(1px); width: 84px; height: 21px; border-radius: 10.5px; } 
+    70%  { transform: translateX(-50%) translateY(-0.5px); width: 81px; height: 22.5px; border-radius: 11.2px; } 
+    100% { transform: translateX(-50%) translateY(0); width: 82px; height: 22px; border-radius: 11px; } 
+}
+
+/* 灵动岛缩小果冻动画：收回去时候的Q弹动画。 */
+.dynamic-island.jelly-shrink-anim {
+    animation: shrink-bounce 0.4s cubic-bezier(0.25, 1, 0.5, 1) forwards;
+}
+
+/* 缩小弹跳的详细动作：从长条挤回一个小圆点。 */
+@keyframes shrink-bounce {
+    0%   { transform: translateX(-50%) translateY(0); width: 82px; height: 22px; border-radius: 11px; }
+    45%  { transform: translateX(-50%) translateY(0); width: 20px; height: 22px; border-radius: 11px; } 
+    70%  { transform: translateX(-50%) translateY(0); width: 24px; height: 22px; border-radius: 11px; } 
+    100% { transform: translateX(-50%) translateY(0); width: 22px; height: 22px; border-radius: 11px; } 
+}
+
+/* 灵动岛收起时的里面内容：胶囊状态下里面的一左一右小图标。 */
+.di-collapsed {
+    position: absolute; width: 100%; height: 100%;
+    display: flex; justify-content: space-between; align-items: center;
+    padding: 0 4px; 
+    transition: opacity 0.1s ease;
+    opacity: 1;
+}
+
+/* 各种动画进行时，先把它里面的小图标藏起来，免得穿帮。 */
+.dynamic-island.is-shrinking .di-collapsed,
+.dynamic-island.jelly-shrink-anim .di-collapsed,
+.dynamic-island.jelly-anim .di-collapsed {
+    opacity: 0; pointer-events: none;
+}
+
+/* 内容出现动画：展开时，里面的内容慢慢清晰可见。 */
+.dynamic-island.jelly-anim .di-collapsed {
+    animation: content-appear 0.45s ease-out forwards;
+}
+
+/* 模糊变清晰的魔法配方：一开始是糊的，慢慢变清楚。 */
+@keyframes content-appear {
+    0%   { opacity: 0; filter: blur(6px); }
+    30%  { opacity: 0.8; filter: blur(2px); }
+    60%  { opacity: 1; filter: blur(0px); }
+    100% { opacity: 1; filter: blur(0px); }
+}
+
+/* 灵动岛里的小专辑封面：左边那个圆圆的小图。 */
+.di-album-small {
+    width: 14px; height: 14px; border-radius: 50%;
+    object-fit: cover; background: #fff;
+}
+
+/* 灵动岛里的音乐波浪：右边那个一闪一闪跳动的波形。 */
+.di-waveform {
+    display: flex; gap: 1.5px; align-items: center;
+    height: 10px; margin-right: 1px;
+}
+/* 波浪里的小竖条：每个竖条的设定和跳动动画。 */
+.di-waveform span {
+    width: 1px; background-color: rgba(255, 255, 255, 0.9);
+    border-radius: 0.5px;
+    animation: wave 0.5s infinite ease-in-out alternate; 
+}
+/* 这里给每根竖条设置不一样的高度和错开的跳动时间，让它们看起来像真的音浪。 */
+.di-waveform span:nth-child(1) { height: 40%; animation-delay: 0.1s; }
+.di-waveform span:nth-child(2) { height: 80%; animation-delay: 0.3s; }
+.di-waveform span:nth-child(3) { height: 60%; animation-delay: 0.0s; }
+.di-waveform span:nth-child(4) { height: 100%; animation-delay: 0.4s; }
+.di-waveform span:nth-child(5) { height: 50%; animation-delay: 0.2s; }
+.di-waveform span:nth-child(6) { height: 70%; animation-delay: 0.5s; }
+
+/* 竖条跳动魔法：就是上下拉伸。 */
+@keyframes wave {
+    0% { transform: scaleY(0.3); }
+    100% { transform: scaleY(1); }
+}
+/* 暂停状态：暂停播放时，波浪也不跳了，变成小矮个。 */
+.di-waveform.paused span {
+    animation-play-state: paused; transform: scaleY(0.2);
+}
+
+/* 灵动岛长按展开后的大卡片：那个毛玻璃质感、半透明的大黑板子。 */
+.di-card {
+    position: absolute; top: 19px; left: 50%;
+    transform: translateX(-50%) scale(0.25) translateY(-85px);
+    transform-origin: top center;
+    width: 98%; height: 120px; 
+    background-color: rgba(30, 30, 30, 0.45);
+    border: 1px solid rgba(255, 255, 255, 0.15); 
+    border-radius: 26px;
+    z-index: 100; opacity: 0; visibility: hidden; pointer-events: none;
+    transition: transform 0.4s cubic-bezier(0.4, -0.15, 0.2, 1), opacity 0.25s ease, visibility 0.4s; 
+}
+
+/* 大卡片打开：让它变大、现形，并且能点里面的东西。 */
+.di-card.is-open {
+    transform: translateX(-50%) scale(1) translateY(0);
+    opacity: 1; visibility: visible; pointer-events: auto;
+    transition: transform 0.45s cubic-bezier(0.34, 1.25, 0.5, 1), opacity 0.3s ease, visibility 0.45s; 
+}
+
+/* 大卡片里面的容器：管里面东西的位置排布，像个小抽屉。 */
+.di-expanded {
+    position: absolute; top: 0; left: 0; width: 100%; height: 120px; 
+    padding: 12px 18px; 
+    display: flex; flex-direction: column; justify-content: space-between;
+    opacity: 0; transition: opacity 0.3s ease;
+}
+/* 卡片打开后，里面的东西慢半拍显示出来。 */
+.di-card.is-open .di-expanded {
+    opacity: 1; transition-delay: 0.1s;
+}
+
+/* 卡片上半部分：放专辑封面和歌名的那一排。 */
+.di-exp-top {
+    display: flex; align-items: center; gap: 12px;
+}
+/* 大专辑封面：左边那个正方形大图。 */
+.di-album-large {
+    width: 44px; height: 44px; border-radius: 10px;
+    object-fit: cover; background: #000;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.3);
+}
+/* 歌名和歌手名容器：中间那两行字的地方。 */
+.di-exp-info {
+    flex-grow: 1; display: flex; flex-direction: column; gap: 2px;
+}
+/* 歌名标题：字体粗一点的字。 */
+.di-title {
+    color: #fff; font-size: 13px; font-weight: 500; letter-spacing: 0.5px;
+}
+/* 歌手名副标题：颜色浅一点的字。 */
+.di-subtitle {
+    color: rgba(255,255,255,0.5); font-size: 11px;
+}
+
+/* 占位的小图标：右上角可能用来放软件图标或者播放标识的角落。 */
+.di-app-icon-placeholder {
+    width: 20px; height: 20px; background: #eef2a6; border-radius: 6px;
+    align-self: flex-start; position: relative;
+}
+/* 占位图标里的那个小箭头/小角。 */
+.di-app-icon-placeholder::after {
+    content: ''; position: absolute; top: 5px; left: 7px;
+    width: 4px; height: 7px;
+    border: 1.5px solid #000; border-top: none; border-left: none;
+    border-radius: 0 0 3px 0;
+}
+
+/* 音乐进度条容器：包含进度条和两头时间的区域。 */
+.di-exp-progress {
+    display: flex; flex-direction: column; gap: 5px; margin-top: 6px;
+}
+/* 进度条底槽：那条灰灰的底线。 */
+.di-bar {
+    width: 100%; height: 4px; background: rgba(255,255,255,0.2);
+    border-radius: 2px; overflow: hidden;
+}
+/* 进度条走动的部分：那条白白的一截。 */
+.di-bar-fill {
+    width: 35%; height: 100%; background: #fff; border-radius: 2px;
+}
+/* 两头的时间文字：比如 0:12 和 -3:48。 */
+.di-times {
+    display: flex; justify-content: space-between;
+    color: rgba(255,255,255,0.5); font-size: 10px;
+    font-family: "KokoroMinchoutai";
+}
+
+/* 控制按钮区：最下面那排点赞、上一首、暂停、下一首的按钮槽。 */
+.di-exp-controls {
+    display: flex; justify-content: space-between; align-items: center;
+    padding: 0 10px; margin-top: 2px;
+}
+/* 喜欢按钮（空心圆）：虽然叫heart但这画的是个圆框。 */
+.ctrl-icon-heart {
+    width: 16px; height: 16px;
+    border: 1.5px solid rgba(255,255,255,0.8); border-radius: 50%;
+}
+/* 上一首按钮：用边框画出来的一个朝左的小三角。 */
+.ctrl-icon-prev {
+    width: 0; height: 0;
+    border-top: 5px solid transparent; border-bottom: 5px solid transparent;
+    border-right: 9px solid rgba(255,255,255,0.9);
+}
+/* 暂停按钮：两条竖线。 */
+.ctrl-icon-pause {
+    width: 10px; height: 14px;
+    border-left: 3.5px solid #fff; border-right: 3.5px solid #fff;
+}
+/* 下一首按钮：朝右的小三角。 */
+.ctrl-icon-next {
+    width: 0; height: 0;
+    border-top: 5px solid transparent; border-bottom: 5px solid transparent;
+    border-left: 9px solid rgba(255,255,255,0.9);
+}
+/* 投屏/隔空播放按钮：像个小电视机带个底座。 */
+.ctrl-icon-cast {
+    width: 16px; height: 12px;
+    border: 1.5px solid rgba(255,255,255,0.8); border-radius: 3px; position: relative;
+}
+/* 投屏按钮的小底座：小三角。 */
+.ctrl-icon-cast::after {
+    content: ''; position: absolute; bottom: -1.5px; left: 50%; transform: translateX(-50%);
+    width: 0; height: 0;
+    border-left: 4px solid transparent; border-right: 4px solid transparent;
+    border-bottom: 5px solid rgba(255,255,255,0.8);
+}
+
+/* =======================================
+   第四部分：桌面元素 (时钟、网格、小组件)
+=======================================
+*/
+
+/* 桌面大时钟：屏幕左上角那个竖着排的超大时间数字。 */
+.large-timestamp {
+    position: absolute;
+    top: 32px; left: 20px;
+    display: flex; flex-direction: column; align-items: center;
+    color: rgba(255, 255, 255, 0.9);
+    font-family: "AR PL UKai CN", serif; 
+    font-size: 3.2rem; font-weight: 100; line-height: 0.9; 
+    text-align: center; text-shadow: 0 1px 3px rgba(0, 0, 0, 0.2);
+    font-variant-numeric: tabular-nums; 
+}
+
+/* 桌面大时钟的分钟：让下面那排数字变暗一点，好区分时和分。 */
+#large-minute {
+    color: rgba(255, 255, 255, 0.45); 
+}
+
+/* 桌面主体内容区：控制APP图标和组件们放在下半屏的一个大框。 */
+.home-content {
+    position: absolute; bottom: 110px; left: 15px; right: 15px;
+    display: flex; flex-direction: column; gap: 16px; 
+}
+
+/* 桌面搜索框：一个半透明、带毛玻璃特效的长条。 */
+.search-bar {
+    width: 100%; height: 38px;
+    background-color: rgba(255, 255, 255, 0.05);
+    border: none; border-radius: 10px; box-shadow: 0 4px 10px rgba(0, 0, 0, 0.08); 
+    display: flex; align-items: center; padding: 0 15px;
+    cursor: text; transition: all 0.3s ease;
+}
+
+/* 搜索框里打字的地方：透明的输入区，字是白色的。 */
+.search-input {
+    background: transparent; border: none; color: rgba(255, 255, 255, 0.9);
+    flex-grow: 1; font-size: 14px; outline: none;
+    font-family: "KokoroMinchoutai"; letter-spacing: 0.5px;
+}
+
+/* 搜索框未输入时的提示字（比如“搜索”）：半透明的白色字。 */
+.search-input::placeholder {
+    color: rgba(255, 255, 255, 0.5); font-family: "KokoroMinchoutai";
+}
+
+/* 搜索框旁边的小放大镜图标。 */
+.search-icon {
+    width: 22px; height: 22px; object-fit: contain; opacity: 0.85;
+}
+
+/* 桌面网格排版：把桌面分成4列，像表格一样用来摆放APP和小组件。 */
+.main-grid {
+    display: grid; grid-template-columns: repeat(4, 1fr); gap: 12px; width: 100%;
+}
+
+/* 单个APP图标+文字的组合包：让他们上下对齐，并且留点缝隙。 */
+.app-wrapper {
+    display: flex; flex-direction: column; align-items: center; gap: 3px; 
+}
+
+/* APP大方块图标：也就是桌面上那个半透明圆角方块，平时是毛玻璃效果。 */
+.home-app-item {
+    width: 82%; aspect-ratio: 1 / 1; 
+    display: flex; justify-content: center; align-items: center;
+    border-radius: 14px; cursor: pointer;
+    background-color: rgba(255, 255, 255, 0.05); border: none; 
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.06); transition: all 0.3s ease;
+}
+
+/* 鼠标放上去或者按下APP方块时的效果：变成粉粉的背景，而且会往上浮起来一点点，影子也变深了。 */
+.home-app-item:hover, .home-app-item:active {
+    background-color: rgba(255, 158, 170, 0.2); 
+    transform: translateY(-4px) scale(1.02); 
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.12); 
+}
+
+/* APP图标里面的小图片：方块里面真正的那个图案。 */
+.app-inner-icon {
+    width: 28px; height: 28px; object-fit: contain;
+}
+
+/* 如果APP没有图标，用这个占位的白色小圆点代替。 */
+.placeholder-icon {
+    width: 16px; height: 16px; background-color: rgba(255, 255, 255, 0.4); border-radius: 50%;
+}
+
+/* APP的名字标签：方块下面那行小字。 */
+.app-label {
+    font-size: 10px; color: rgba(255, 255, 255, 0.8);
+    font-family: "KokoroMinchoutai"; letter-spacing: 0.5px; line-height: 1;
+}
+
+/* 大号小组件的统一样式：占用更多格子的那种大方块，也是毛玻璃效果。 */
+.widget-box {
+    width: 100%; height: auto; aspect-ratio: 1 / 1; align-self: start; 
+    border-radius: 16px; 
+    background-color: rgba(255, 255, 255, 0.05); border: none; 
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.06); 
+    display: flex; justify-content: center; align-items: center;
+    overflow: hidden; position: relative; transition: all 0.3s ease;
+}
+
+/* 鼠标划过大号小组件时的悬浮效果。 */
+.widget-box:hover {
+    box-shadow: 0 6px 14px rgba(0, 0, 0, 0.1); transform: translateY(-2px);
+}
+
+/* 定位第一排的两个普通APP：放第1格和第2格。 */
+.top-app-1 { grid-column: 1 / 2; grid-row: 1 / 2; }
+.top-app-2 { grid-column: 2 / 3; grid-row: 1 / 2; }
+
+/* 音乐小组件定位：让它占右边两列和上面两行的面积，是个长方形大块。 */
+.music-widget {
+    grid-column: 3 / 5; grid-row: 1 / 3;
+    flex-direction: column; justify-content: flex-start; padding: 10px 8px;
+}
+
+/* 音乐小组件里的进度条：灰色的底。 */
+.music-progress {
+    width: 85%; height: 2px; background: rgba(255, 255, 255, 0.2); border-radius: 2px;
+}
+/* 音乐进度条的白线：表示听了多少的填充条。 */
+.music-progress-fill {
+    width: 0%; height: 100%; background: rgba(255, 255, 255, 0.8); transition: width 0.1s linear;
+}
+
+/* 黑胶唱片机的外壳盒子。 */
+.record-player-container {
+    width: 100%; flex-grow: 1; position: relative; display: flex;
+    justify-content: center; align-items: center; margin-top: 6px; transform: scale(1.08); 
+}
+
+/* 唱片机的黑色托盘大底座。 */
+.turntable-platter {
+    width: 84px; height: 84px; border-radius: 50%; background: #111;
+    box-shadow: inset 0 0 8px rgba(255,255,255,0.05), 0 2px 4px rgba(0,0,0,0.3);
+    display: flex; justify-content: center; align-items: center;
+}
+
+/* 黑胶唱片本体：带圈圈纹理和反光特效的光盘！设定了一个转圈圈的动画，但一开始是暂停的。 */
+.record-disc {
+    width: 80px; height: 80px; border-radius: 50%;
+    background: conic-gradient(from 45deg, rgba(255,255,255,0.15) 0deg, transparent 20deg, transparent 160deg, rgba(255,255,255,0.15) 180deg, transparent 200deg, transparent 340deg, rgba(255,255,255,0.15) 360deg),
+                repeating-radial-gradient(circle at center, #111, #111 0.5px, #222 1px, #222 1.5px);
+    display: flex; justify-content: center; align-items: center;
+    position: relative; animation: spin 7s linear infinite; animation-play-state: paused; 
+    box-shadow: 0 2px 8px rgba(0,0,0,0.5); transition: box-shadow 0.3s ease;
+}
+
+/* 播放状态：加了这个名字，唱片就会开始转起来！ */
+.record-disc.playing {
+    animation-play-state: running;
+}
+
+/* 唱片正中心的粉色贴纸小圆盘。 */
+.record-center {
+    width: 24px; height: 24px; border-radius: 50%; background: #ff9eaa; border: 2px solid #111;
+    display: flex; justify-content: center; align-items: center;
+    box-shadow: inset 0 0 5px rgba(0,0,0,0.5), 0 0 10px rgba(255, 255, 255, 0.4);
+}
+
+/* 贴纸中间的骷髅小图标（外链图片）。 */
+.record-skeleton {
+    width: 14px; height: 14px; object-fit: contain;
+    background: url("https://12387.cert.org.cn/image_tent/sysresources/98f12d8a0c2c4a9ebc90a1f0c29497bb.png") center/contain no-repeat;
+}
+
+/* 唱片转圈圈的魔法：从0度转到360度，无限循环。 */
+@keyframes spin { 100% { transform: rotate(360deg); } }
+
+/* 唱片机的唱针臂：旁边那根长长的针，控制它旋转移动来模拟播放。 */
+.tonearm {
+    width: 10px; height: 65px; position: absolute; top: -2px; right: 4px; 
+    transform-origin: 5px 5px; transform: rotate(0deg); 
+    transition: transform 0.8s cubic-bezier(0.4, 0, 0.2, 1); z-index: 2; pointer-events: none; 
+}
+
+/* 播放时唱针搭上去的样子：把针挪过去25度。 */
+.tonearm.active-arm { transform: rotate(25deg); }
+
+/* 唱针臂顶端的轴承圆点。 */
+.tonearm-joint {
+    width: 10px; height: 10px; border-radius: 50%;
+    background: radial-gradient(circle at 30% 30%, #fff, #999, #444);
+    position: absolute; top: 0; left: 0; box-shadow: 1px 1px 3px rgba(0,0,0,0.5);
+}
+
+/* 唱针的那根细铁棒。 */
+.tonearm-stick {
+    width: 2px; height: 52px; background: linear-gradient(to right, #ccc, #fff, #888);
+    position: absolute; top: 6px; left: 4px; border-radius: 1px; box-shadow: 1px 1px 2px rgba(0,0,0,0.3);
+}
+
+/* 唱针下面带针头的那个黑疙瘩头。 */
+.tonearm-head {
+    width: 6px; height: 10px; background: linear-gradient(to bottom, #444, #111);
+    position: absolute; top: 57px; left: 2.5px; border-radius: 1px;
+    transform: rotate(15deg); box-shadow: 1px 1px 2px rgba(0,0,0,0.4);
+}
+
+/* 右下角的电源开关按钮区域。 */
+.power-switch {
+    position: absolute; bottom: 4px; right: 2px; width: 14px; height: 14px;
+    z-index: 4; pointer-events: none; display: flex; justify-content: center;
+    align-items: center; overflow: visible; 
+}
+
+/* 开关图标本体：默认是半透明灰白色的。 */
+.power-switch img.switch-icon {
+    width: 100%; height: 100%; object-fit: contain; filter: brightness(0) invert(1) opacity(0.6);
+    transform: scale(1); transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1); 
+}
+
+/* 开机/播放时开关变色：通过滤镜把它变成亮粉色并稍微放大一点。 */
+.playing-switch img.switch-icon {
+    filter: brightness(0) invert(75%) sepia(15%) saturate(800%) hue-rotate(310deg) brightness(95%) contrast(100%);
+    opacity: 0.9; transform: scale(1.05); 
+}
+
+/* 给整个唱机盖一层隐形的点击布，点它就能播放或暂停。 */
+.record-area {
+    position: absolute; top: 0; left: 0; width: 100%; height: 100%; cursor: pointer; z-index: 5; 
+}
+
+/* 相册小组件定位：占左下角的四大格面积。点它可以换背景图。 */
+.photo-widget {
+    grid-column: 1 / 3; grid-row: 2 / 4; cursor: pointer; background-size: cover; background-position: center;
+}
+/* 相册里默认空着的提示图标。 */
+.widget-placeholder {
+    font-size: 2rem; color: rgba(255, 255, 255, 0.4); font-weight: 100;
+}
+/* 隐藏的上传图片按钮，点相册时会偷偷触发它。 */
+#photoInput { display: none; }
+
+/* 定位下半部分的另外两个小APP。 */
+.bottom-app-1 { grid-column: 3 / 4; grid-row: 3 / 4; }
+.bottom-app-2 { grid-column: 4 / 5; grid-row: 3 / 4; }
+
+/* =======================================
+   第五部分：底部常用软件坞 (Dock)
+=======================================
+*/
+
+/* 底部常驻的那条导航栏背景：半透明带毛玻璃，边框有一点点白，像苹果底部的Dock栏。 */
+.toolbar {
+    position: absolute; bottom: 10px; left: 15px; right: 15px; 
+    background-color: rgba(158, 197, 232, 0.15); 
+    border: 1px solid rgba(255, 255, 255, 0.4); border-radius: 18px; 
+    display: flex; align-items: center; justify-content: space-between; padding: 8px 14px; z-index: 6; 
+}
+
+/* 底部栏里的单个APP图标底座：圆圆的，有点像立体的按钮。 */
+.app-item {
+    display: flex; justify-content: center; align-items: center;
+    background-color: rgba(158, 197, 232, 0.5); border: 1px solid rgba(255, 255, 255, 0.2); 
+    box-shadow: inset 3px 3px 6px rgba(30, 60, 100, 0.8), 1px 1px 3px rgba(107, 157, 203, 0.3);
+    width: 36px; height: 36px; border-radius: 50%; cursor: pointer; transition: all 0.3s ease;
+    -webkit-tap-highlight-color: transparent; 
+}
+
+/* 点一下或把鼠标放上去，图标会放大并且变成红色系，像被点亮了。 */
+.app-item:hover, .app-item:active { 
+    transform: scale(1.05); background-color: rgba(255, 158, 170, 0.8);
+    border-color: rgba(255, 255, 255, 0.4); 
+    box-shadow: inset 3px 3px 6px rgba(140, 35, 55, 0.85), 1px 1px 4px rgba(224, 122, 136, 0.5);
+}
+
+/* 底部APP真正的图标图片大小。 */
+.app-icon { width: 18px; height: 18px; object-fit: contain; }
+
+
+/* =======================================
+   第六部分：聊天软件的专属样式 (大工程！)
+=======================================
+*/
+
+/* 聊天软件的专属字体库：导入各种粗细的特别字体。 */
+@font-face { font-family: "ZSFT-br"; src: url("https://fontsapi.zeoseven.com/br/bold.woff2") format("woff2"); font-weight: 700; font-display: swap; }
+@font-face { font-family: "ZSFT-br"; src: url("https://fontsapi.zeoseven.com/br/light.woff2") format("woff2"); font-weight: 300; font-display: swap; }
+@font-face { font-family: "ZSFT-br"; src: url("https://fontsapi.zeoseven.com/br/medium.woff2") format("woff2"); font-weight: 500; font-display: swap; }
+@font-face { font-family: "ZSFT-br"; src: url("https://fontsapi.zeoseven.com/br/main.woff2") format("woff2"); font-weight: 400; font-display: swap; }
+@font-face { font-family: "ZSFT-br"; src: url("https://fontsapi.zeoseven.com/br/semi-bold.woff2") format("woff2"); font-weight: 600; font-display: swap; }
+@font-face { font-family: "ZSFT-ej"; src: url("https://fontsapi.zeoseven.com/ej/main.woff2") format("woff2"); font-weight: 400; font-display: swap; }
+
+/* 聊天软件的颜色大仓库：在这里统一定义了一些常用的颜色和阴影，方便下面直接拿来用。 */
+:root {
+  --bg-overlay: rgba(0, 0, 0, 0.5);
+  --bg-ticket-base: rgba(245, 245, 245, 0.85);
+  --border-color: rgba(0, 0, 0, 0.5);
+  --shadow-main: 0 15px 30px rgba(0, 0, 0, 0.6);
+  --shadow-active: 0 5px 12px rgba(0, 0, 0, 0.5);
+  --color-mini-text: #4E342E;   
+  --color-front-text: #EFEBE9;  
+  --back-ink: #4E342E;          
+}
+
+/* 允许打字的地方：关掉系统自带的难看边框，并把鼠标变成打字的形状。 */
+[contenteditable="true"] { 
+  outline: none; cursor: text; -webkit-user-select: auto; user-select: auto; 
+}
+
+/* 聊天软件主页缩小动画：当打开新页面时，主页面往左边滑一点点并且变透明隐藏起来。 */
+.screen-chat-home.shrink { transform: translateX(-15%); opacity: 0; pointer-events: none; }
+
+/* 聊天界面的底部分页内容（消息/联系人等）：默认全藏起来。 */
+.tab-content { display: none; flex-direction: column; height: 100%; box-sizing: border-box; }
+/* 当它被选中时，显示出来。 */
+.tab-content.active { display: flex; }
+
+/* 聊天页面的大标题区域：设置边距，留出顶部的空间。 */
+.tab-header-generic { padding: 40px 20px 15px; }
+/* 大标题文字：比如“CHAT”这几个大字，加粗发白。 */
+.tab-title { color: rgba(255, 255, 255, 0.95); font-size: 22px; font-weight: 600; letter-spacing: 1.5px; text-transform: uppercase; margin: 0; }
+/* 大标题下的一排小字。 */
+.tab-subtitle { color: rgba(255, 255, 255, 0.5); font-size: 10px; margin-top: 4px; }
+
+/* 聊天软件自己的底部切换条：深灰色、毛玻璃、悬浮在底部。 */
+.nav-bar {
+  position: absolute; bottom: 15px; left: 10px; right: 10px; height: 40px; 
+  background-color: rgba(45, 48, 54, 0.65); 
+  border: 1px solid rgba(255, 255, 255, 0.1); border-radius: 10px; 
+  display: flex; align-items: center; justify-content: space-around; padding: 0 10px; box-sizing: border-box; 
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.2); z-index: 10;
+}
+/* 切换条里的单个按钮块。点的时候会有一点往下凹的动画（scale）。 */
+.nav-item { position: relative; width: 36px; height: 36px; display: flex; justify-content: center; align-items: center; cursor: pointer; transition: transform 0.2s ease; z-index: 5; -webkit-tap-highlight-color: transparent; }
+.nav-item:active { transform: scale(0.95); }
+/* 按钮里的图标：默认是灰白灰白的，半透明。 */
+.nav-icon { width: 24px; height: 24px; object-fit: contain; pointer-events: none; opacity: 0.35; filter: grayscale(100%); transition: opacity 0.3s ease, filter 0.3s ease, transform 0.3s ease; }
+/* 如果你选中了这个按钮：图标变亮、变回原来的颜色，并且稍微往上浮动一点。 */
+.nav-item.active .nav-icon { opacity: 0.95; filter: grayscale(0%) drop-shadow(0 0 3px rgba(255, 255, 255, 0.4)); transform: translateY(-2px); }
+
+/* 底部导航按钮下面的那条发光小横杠：用来告诉你现在在哪个页面。 */
+.indicator { position: absolute; bottom: 2px; left: 0; width: 20px; height: 3px; background-color: rgba(255, 249, 240, 0.95); border-radius: 3px; box-shadow: 0 0 6px 1px rgba(255, 249, 240, 0.5); transition: transform 0.25s cubic-bezier(0.2, 0.8, 0.2, 1), background-color 0.25s ease, box-shadow 0.25s ease; pointer-events: none; z-index: 2; }
+/* 小横杠往上打的手电筒光束：酷炫的光效外壳，一开始是扁的。 */
+.light-beam-wrapper { position: absolute; bottom: 1px; left: 50%; width: 80px; height: 36px; filter: blur(1.5px); pointer-events: none; opacity: 0; transform-origin: bottom center; transform: translateX(-50%) scaleY(0); }
+/* 光束本体：用渐变画出来的一个梯形光束，底下亮，往上越来越透明。 */
+.light-beam { width: 100%; height: 100%; background: linear-gradient(to top, rgba(255, 249, 240, 0.35) 0%, rgba(255, 249, 240, 0) 100%); clip-path: polygon(25% 0%, 75% 0%, 60% 100%, 40% 100%); transition: background 0.4s ease; }
+/* 当切换到特定页面时，光会变成暖黄色。 */
+.indicator.warm-light { background-color: rgba(255, 235, 185, 0.95); box-shadow: 0 0 8px 2px rgba(255, 235, 185, 0.6); }
+.indicator.warm-light .light-beam { background: linear-gradient(to top, rgba(255, 235, 185, 0.45) 0%, rgba(255, 235, 185, 0) 100%); }
+/* 光束打出来的发射动画：当你点按钮时，光束‘唰’地一下往上射出去。 */
+.indicator.shoot .light-beam-wrapper { animation: beamUp 0.3s cubic-bezier(0.1, 0.9, 0.2, 1) 0.1s forwards; }
+/* 光束发射的具体变化：高度从0拉满，透明度从0变1。 */
+@keyframes beamUp { 0% { transform: translateX(-50%) scaleY(0); opacity: 0; } 100% { transform: translateX(-50%) scaleY(1); opacity: 1; } }
+
+/* 聊天主界面的头部：放标题和右上角图标的地方。 */
+.chat-header { padding: 40px 20px 15px; display: flex; justify-content: space-between; align-items: center; }
+.chat-header h1 { margin: 0; color: rgba(255, 255, 255, 0.95); font-size: 22px; font-weight: 600; letter-spacing: 1.5px; text-transform: uppercase; }
+/* 右上角的图标（比如加号）：点下去会稍微变透明。 */
+.header-icon { width: 22px; height: 22px; cursor: pointer; transition: opacity 0.2s; display: flex; align-items: center; justify-content: center; }
+.header-icon img { width: 100%; height: 100%; object-fit: contain; }
+.header-icon:active { opacity: 0.5; }
+
+/* 聊天列表上的搜索框外壳。 */
+.search-container { padding: 0 15px 15px; flex-shrink: 0; }
+
+/* 消息列表的大滚轮：这块区域可以往下一直滑，并且把难看的滚动条给藏起来了。 */
+.chat-list { flex-grow: 1; overflow-y: auto; overflow-x: hidden; padding: 0 0 80px; position: relative; width: 100%; -ms-overflow-style: none; scrollbar-width: none; }
+.chat-list::-webkit-scrollbar { display: none; }
+
+/* 消息列表的单行外壳：用来支持左滑右滑操作的包裹层。 */
+.chat-item-wrapper { display: flex; width: 100%; transition: transform 0.3s cubic-bezier(0.2, 0.8, 0.2, 1); will-change: transform; margin-bottom: 6px; }
+/* 真正的这行消息实体：点下去整行背景会稍微亮一点点。 */
+.chat-item { display: flex; align-items: center; padding: 8px 15px; border-radius: 0; transition: background 0.3s ease; cursor: pointer; position: relative; width: 100%; flex-shrink: 0; box-sizing: border-box; background: transparent; }
+.chat-item:active { background: rgba(255, 255, 255, 0.05); }
+
+/* 左滑后露出来的操作按钮区：比如置顶、删除。 */
+.swipe-actions { display: flex; flex-shrink: 0; width: 180px; }
+/* 单个滑动操作按钮：居中文字。 */
+.swipe-action { display: flex; justify-content: center; align-items: center; color: #fff; font-size: 12px; font-weight: 500; width: 60px; cursor: pointer; transition: opacity 0.2s; }
+.swipe-action:active { opacity: 0.7; }
+/* 置顶按钮：蓝底。 */
+.swipe-pin { background: rgba(74, 144, 226, 0.95); }
+/* 标为未读按钮：白底黑字。 */
+.swipe-unread { background: rgba(255, 249, 240, 0.95); color: #1a1a1a; }
+/* 删除按钮：红底。 */
+.swipe-delete { background: rgba(255, 77, 79, 0.95); }
+
+/* 消息列表里别人的头像。 */
+.avatar { width: 42px; height: 42px; border-radius: 6px; object-fit: cover; margin-right: 12px; background: #333; box-shadow: 0 4px 10px rgba(0,0,0,0.2); flex-shrink: 0; }
+/* 消息列表里装名字和最新一条消息的容器。 */
+.chat-info { flex-grow: 1; display: flex; flex-direction: column; justify-content: center; overflow: hidden; }
+/* 对方名字：字体比较白。 */
+.chat-name { color: rgba(255, 255, 255, 0.95); font-size: 14px; font-weight: 500; margin-bottom: 3px; letter-spacing: 0.5px; }
+/* 最新消息预览：半透明，一行字装不下就显示省略号(...)。 */
+.chat-msg-preview { color: rgba(255, 255, 255, 0.5); font-size: 11px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+
+/* 消息列表最右边：放时间和未读红点的地方。 */
+.chat-meta { display: flex; flex-direction: column; align-items: flex-end; justify-content: flex-start; padding-top: 2px; height: 42px; position: relative; }
+/* 消息时间：小小的灰字。 */
+.chat-time { color: rgba(255, 255, 255, 0.3); font-size: 10px; margin-bottom: 2px; line-height: 1; }
+
+/* 未读消息的小红点（这里是小白点）外层：可以被鼠标拖拽玩。 */
+.badge-container { position: relative; width: 14px; height: 14px; cursor: grab; z-index: 20; will-change: transform; margin-top: 6px; }
+.badge-container:active { cursor: grabbing; } /* 按住的时候鼠标变成抓取手势 */
+/* 未读点背景：一个白色带阴影的小圆球。 */
+.badge-bg { position: absolute; inset: 0; background: rgba(255, 249, 240, 0.95); border-radius: 50%; box-shadow: 0 2px 6px rgba(0,0,0,0.3); transform-origin: center; will-change: transform; }
+/* 未读点里的数字：很小很黑的字。 */
+.badge-text { position: absolute; inset: 0; display: flex; justify-content: center; align-items: center; color: #000; font-size: 9px; font-weight: bold; pointer-events: none; }
+/* 拖拽松手后小点爆炸消失的动画调用。 */
+.badge-container.poof .badge-bg, .badge-container.poof .badge-text { animation: poofAnim 0.3s forwards cubic-bezier(0.1, 0.9, 0.2, 1); }
+/* 爆炸消失魔法：变大，变模糊，然后完全透明不见，就像一阵烟（poof）。 */
+@keyframes poofAnim { 0% { transform: scale(1); opacity: 1; filter: blur(0); } 50% { transform: scale(1.5); opacity: 0.5; filter: blur(1px); } 100% { transform: scale(0); opacity: 0; filter: blur(3px); } }
+
+/* =======================================
+   第七部分：联系人等子页面 (导航、分组)
+=======================================
+*/
+
+/* 中间的控制区：包含子导航和列表主体。 */
+.mid-toolbar { display: flex; flex-direction: column; flex-grow: 1; overflow: hidden; }
+/* 子页面上面的小导航栏（比如：全部、群组、公众号）。 */
+.subnav-container { position: relative; display: flex; padding: 0 20px; border-bottom: 1px solid rgba(255,255,255,0.05); flex-shrink: 0; }
+/* 子导航的单个文字标签：默认半透明。 */
+.subnav-item { flex: 1; text-align: center; padding: 10px 0 6px; color: rgba(255,255,255,0.6); font-size: 14px; cursor: pointer; transition: color 0.3s; user-select: none; }
+/* 点中的标签会变亮变粗。 */
+.subnav-item.active { color: #FFEFD5; font-weight: 500; }
+/* 标签底下那根短横线的外壳，负责在不同标签间滑来滑去。 */
+.subnav-indicator-wrap { position: absolute; bottom: 0; left: 20px; width: calc((100% - 40px) / 4); height: 3px; display: flex; justify-content: center; transition: transform 0.3s cubic-bezier(0.2,0.8,0.2,1); pointer-events: none; }
+/* 标签底下的那根发光短横线本体。 */
+.subnav-indicator { width: 24px; height: 3px; background: #FFEFD5; border-radius: 2px 2px 0 0; }
+
+/* 切换各种列表的面板大容器，支持上下滑动。 */
+.panels-wrapper { flex-grow: 1; overflow-y: auto; overflow-x: hidden; width: 100%; padding-bottom: 80px; -ms-overflow-style: none; scrollbar-width: none; -webkit-overflow-scrolling: touch; }
+.panels-wrapper::-webkit-scrollbar { display: none; }
+/* 单个面板块：默认全隐藏。 */
+.sub-tab-panel { display: none; flex-direction: column; width: 100%; animation: fadeIn 0.2s ease; }
+/* 被选中的面板块显示出来，并带个简单的淡入效果。 */
+.sub-tab-panel.active { display: flex; }
+/* 淡入魔法：从完全透明变成不透明。 */
+@keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+
+/* 联系人分组：比如“我的好友”这个折叠栏。 */
+.contact-group { display: flex; flex-direction: column; width: 100%; }
+/* 分组的标题那一行：点击可以展开或收起。 */
+.contact-group-header { display: flex; align-items: center; padding: 16px 20px; cursor: pointer; transition: background 0.2s; user-select: none; }
+.contact-group-header:active { background: rgba(255,255,255,0.05); }
+/* 分组标题左边的小箭头：展开时箭头往下转90度。 */
+.contact-group-arrow { display: inline-flex; justify-content: center; align-items: center; width: 14px; font-size: 10px; color: rgba(255,255,255,0.4); margin-right: 10px; transition: transform 0.25s cubic-bezier(0.2,0.8,0.2,1); flex-shrink: 0; }
+.contact-group.expanded .contact-group-arrow { transform: rotate(90deg); }
+/* 分组名（比如“特别关心”）。 */
+.contact-group-name { flex-grow: 1; font-size: 15px; color: rgba(255,255,255,0.9); font-weight: 400; letter-spacing: 0.5px; }
+/* 分组里有多少人，比如“0/3”。 */
+.contact-group-count { font-size: 11px; color: rgba(255,255,255,0.4); font-weight: 300; }
+/* 分组里面装的人员名单：默认隐藏折叠。 */
+.contact-group-content { display: none; flex-direction: column; background: transparent; }
+/* 展开时显示人员，还带个往下掉一点点的动画。 */
+.contact-group.expanded .contact-group-content { display: flex; animation: slideDown 0.3s ease; }
+/* 下落魔法。 */
+@keyframes slideDown { from { opacity: 0; transform: translateY(-5px); } to { opacity: 1; transform: translateY(0); } }
+
+/* 按字母排序时，像 A, B, C 这样的小标题栏。 */
+.alpha-title { padding: 4px 20px; color: rgba(255,255,255,0.5); font-size: 12px; font-weight: bold; background: rgba(255,255,255,0.04); z-index: 10; }
+/* 列表里的每一行联系人。 */
+.contact-item { display: flex; align-items: flex-start; padding: 10px 20px; cursor: pointer; transition: background 0.2s; }
+/* 如果在分组里的联系人，整体往右边缩一点点。 */
+.contact-group-content .contact-item { padding-left: 20px; }
+.contact-item:active { background: rgba(255,255,255,0.08); }
+/* 联系人的小头像。 */
+.contact-avatar { width: 38px; height: 38px; border-radius: 6px; object-fit: cover; margin-right: 12px; background: rgba(255,255,255,0.1); flex-shrink: 0; display: flex; align-items: center; justify-content: center; font-size: 16px; font-weight: 600; color: rgba(255,255,255,0.8); background-size: cover; background-position: center; }
+/* 联系人的名字和个性签名容器。 */
+.contact-info-list { flex-grow: 1; display: flex; flex-direction: column; justify-content: flex-start; overflow: hidden; }
+/* 联系人名字。 */
+.contact-list-name { color: rgba(255,255,255,0.95); font-size: 14px; font-weight: 500; margin-top: -1px; margin-bottom: 2px; line-height: 1; }
+/* 联系人签名或状态，字比较小。 */
+.contact-status { color: rgba(255,255,255,0.4); font-size: 11px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; margin-top: 2px; line-height: 1.2; }
+/* 如果列表空空如也，显示的提示占位符。 */
+.empty-state { display: flex; flex-direction: column; align-items: center; justify-content: center; padding: 50px 20px; color: rgba(255,255,255,0.3); font-size: 12px; text-align: center; }
+
+/* =======================================
+   第八部分：右上角“+”号弹出的添加菜单
+=======================================
+*/
+
+/* 弹窗打开时的全屏隐形遮罩：防止你点到后面的东西，点它就关掉菜单。 */
+.add-menu-overlay { position: absolute; inset: 0; z-index: 3000; opacity: 0; pointer-events: none; visibility: hidden; transition: opacity 0.2s, visibility 0s 0.2s; }
+.add-menu-overlay.show { opacity: 1; pointer-events: auto; visibility: visible; transition: opacity 0.2s, visibility 0s; }
+/* 弹出菜单的那个黑色小气泡框：带毛玻璃背景和圆角，动画是从右上角放大弹出来。 */
+.add-menu-bubble { position: absolute; top: 68px; right: 16px; background: rgba(36,38,44,0.95); width: 140px; border-radius: 10px; border: 1px solid rgba(255,255,255,0.08); box-shadow: 0 6px 20px rgba(0,0,0,0.5); display: flex; flex-direction: column; overflow: visible; transform: scale(0.9) translateY(-6px); transform-origin: top right; opacity: 0; transition: transform 0.22s cubic-bezier(0.2,0.8,0.2,1), opacity 0.18s ease; }
+/* 气泡完全弹出。 */
+.add-menu-overlay.show .add-menu-bubble { transform: scale(1) translateY(0); opacity: 1; }
+/* 小气泡顶上那个小小的朝上的三角尖尖。 */
+.add-menu-bubble::before { content: ''; position: absolute; top: -5px; right: 11px; width: 9px; height: 9px; background: rgba(36,38,44,0.95); border-left: 1px solid rgba(255,255,255,0.08); border-top: 1px solid rgba(255,255,255,0.08); transform: rotate(45deg); }
+/* 气泡里的每一行按钮：比如“发起群聊”、“添加朋友”。 */
+.menu-btn { display: flex; align-items: center; gap: 9px; padding: 11px 14px; color: rgba(255,255,255,0.9); font-size: 12px; letter-spacing: 0.3px; cursor: pointer; transition: background 0.15s; border-bottom: 1px solid rgba(255,255,255,0.05); }
+.menu-btn:first-child { border-radius: 10px 10px 0 0; }
+.menu-btn:last-child { border-bottom: none; border-radius: 0 0 10px 10px; }
+.menu-btn:active { background: rgba(255,255,255,0.08); }
+.menu-btn svg { flex-shrink: 0; opacity: 0.65; }
+
+/* =======================================
+   第九部分：好友个人主页 (点头像进来的页面)
+=======================================
+*/
+
+/* 个人主页整个大容器：从屏幕右边滑进来的，黑色底，挡住其他所有东西。 */
+.profile-screen { position: absolute; inset: 0; z-index: 100; display: flex; flex-direction: column; background: transparent; transform: translateX(100%); opacity: 0; visibility: hidden; transition: transform 0.45s cubic-bezier(0.25,0.9,0.3,1), opacity 0.35s, visibility 0s 0.45s; pointer-events: none; overflow-y: auto; scrollbar-width: none; }
+.profile-screen::-webkit-scrollbar { display: none; }
+/* 激活时，刷的一下从右滑到中间。 */
+.profile-screen.active { transform: translateX(0); opacity: 1; visibility: visible; transition: transform 0.45s cubic-bezier(0.25,0.9,0.3,1), opacity 0.35s, visibility 0s; pointer-events: auto; }
+
+/* 个人主页上半部的大背景图区域：一块200像素高的黑色地带。 */
+.profile-bg { position: relative; width: 100%; height: 200px; background: transparent; overflow: hidden; flex-shrink: 0; cursor: pointer; }
+/* 背景图本体：盖在背景区里，透明度稍微调低了一点。 */
+.profile-bg-img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; opacity: 0.7; display: none; }
+/* 左上角的圆形返回按钮：“<”号，半透明毛玻璃底座。 */
+.profile-back-btn { position: absolute; top: 44px; left: 14px; z-index: 10; width: 28px; height: 28px; display: flex; align-items: center; justify-content: center; color: rgba(255,255,255,0.85); cursor: pointer; background: rgba(0,0,0,0.3); border-radius: 50%; }
+.profile-back-btn:active { opacity: 0.6; }
+
+/* 包含头像、名字的那行内容区：稍微往上提了一点，让头像一半盖在背景图上。 */
+.profile-info-row { display: flex; align-items: flex-end; padding: 0 20px; margin-top: -36px; position: relative; z-index: 2; }
+/* 头像的外壳：防止它变形。 */
+.profile-avatar-wrap { position: relative; cursor: pointer; flex-shrink: 0; }
+/* 个人主页的大头像框：方方的稍微有点圆角，外面还包了一层粗边框。 */
+.profile-avatar { width: 72px; height: 72px; border-radius: 10px; border: 2px solid #0e0e0e; background: #2a2a2a; display: flex; align-items: center; justify-content: center; font-size: 28px; font-weight: 700; color: rgba(255,255,255,0.7); overflow: hidden; }
+.profile-avatar-img { width: 100%; height: 100%; object-fit: cover; display: none; }
+.profile-avatar-img.loaded { display: block; }
+/* 头像右下角那个很小的编辑小笔头图标。 */
+.profile-avatar-edit { position: absolute; bottom: 2px; right: 2px; width: 18px; height: 18px; background: rgba(30,30,30,0.9); border-radius: 50%; display: flex; align-items: center; justify-content: center; border: 1px solid rgba(255,255,255,0.1); }
+
+/* 头像旁边写名字和备注的一大块区域。 */
+.profile-text { padding-left: 14px; padding-bottom: 6px; flex-grow: 1; min-width: 0; }
+/* 备注名：特别大、特别白的粗体字。 */
+.profile-remark { font-size: 26px; font-weight: 700; color: rgba(255,255,255,0.95); letter-spacing: 0.5px; line-height: 1.1; cursor: pointer; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; min-height: 28px; display: block; }
+/* 昵称：在备注名底下的灰色小字。 */
+.profile-nickname { font-size: 16px; color: rgba(255,255,255,0.6); margin-top: 1px; cursor: pointer; min-height: 18px; display: block; }
+/* 对方的微信号/ID之类的那排字。 */
+.profile-id { font-size: 12px; color: rgba(255,255,255,0.4); margin-top: 4px; cursor: pointer; }
+/* 个性签名那句话。 */
+.profile-signature { padding: 14px 20px 10px; font-size: 13px; color: rgba(255,255,255,0.45); font-style: normal; border-bottom: 1px solid rgba(255,255,255,0.05); cursor: pointer; min-height: 18px; }
+
+/* 展示照片/朋友圈的图片区。 */
+.profile-photos { padding: 14px 20px 80px; border-bottom: none; }
+.profile-photos-header { display: flex; align-items: center; margin-bottom: 10px; }
+.profile-photos-title { font-size: 13px; color: rgba(255,255,255,0.7); font-weight: 500; letter-spacing: 0.5px; }
+/* 把照片排成4列的小格子。 */
+.profile-photos-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 4px; }
+/* 单张小照片的框框：正方形。 */
+.photo-slot { aspect-ratio: 1/1; border-radius: 4px; background: rgba(255,255,255,0.06); border: 1px solid rgba(255,255,255,0.08); display: flex; align-items: center; justify-content: center; cursor: pointer; overflow: hidden; position: relative; transition: background 0.2s; }
+.photo-slot:active { background: rgba(255,255,255,0.12); }
+.photo-slot img { width: 100%; height: 100%; object-fit: cover; display: none; }
+.photo-slot img.loaded { display: block; }
+/* 如果这格没照片，显示的大“+”号。 */
+.photo-slot-plus { font-size: 18px; color: rgba(255,255,255,0.25); pointer-events: none; }
+/* 鼠标滑过照片时冒出来的小小的删除(x)按钮。 */
+.photo-slot-del { position: absolute; top: 2px; right: 2px; width: 14px; height: 14px; background: rgba(0,0,0,0.6); border-radius: 50%; display: none; align-items: center; justify-content: center; font-size: 10px; color: #fff; z-index: 5; }
+.photo-slot:hover .photo-slot-del { display: flex; }
+
+/* 页面最底部常驻的“发消息”或“设置”大按钮区：吸在底下。 */
+.profile-actions { position: sticky; bottom: 20px; margin-top: auto; margin-left: 20px; margin-right: 20px; margin-bottom: 20px; display: flex; gap: 10px; padding: 12px; background: transparent; border: none; z-index: 50; }
+/* 单个大按钮：居中、粗体。 */
+.profile-action-btn { flex: 1; height: 42px; border-radius: 8px; display: flex; align-items: center; justify-content: center; font-size: 13px; font-weight: 500; cursor: pointer; transition: opacity 0.2s; letter-spacing: 0.5px; }
+.profile-action-btn:active { opacity: 0.7; }
+/* 左边那个透明一点的“设置”按钮。 */
+.btn-settings { background: rgba(255,255,255,0.08); color: rgba(255,255,255,0.8); border: 1px solid rgba(255,255,255,0.1); }
+/* 右边那个亮瞎眼的“发消息”主按钮。 */
+.btn-chat { background: rgba(255,249,240,0.95); color: #1a1a1a; }
+
+/* =======================================
+   第十部分：具体的聊天对话界面 (核心区)
+=======================================
+*/
+
+/* 聊天对话大页面：点人进去跟你一句我一句说话的那个页面。从屏幕右边带毛玻璃效果滑进来。 */
+.screen-chat {
+  position: absolute; inset: 0; z-index: 50; display: flex; flex-direction: column;
+  background: transparent; 
+  transform: translateX(100%); opacity: 0; visibility: hidden; 
+  transition: transform 0.5s cubic-bezier(0.25, 0.9, 0.3, 1), opacity 0.35s ease, visibility 0s 0.5s; 
+  pointer-events: none;
+}
+.screen-chat.active { 
+  transform: translateX(0); opacity: 1; visibility: visible; 
+  transition: transform 0.5s cubic-bezier(0.25, 0.9, 0.3, 1), opacity 0.35s ease, visibility 0s 0s; 
+  pointer-events: auto; 
+}
+
+/* 聊天界面顶部的标题栏：放返回键、对方名字和“更多”按钮。 */
+.chat-detail-header { padding: 40px 12px 15px; display: flex; align-items: center; justify-content: space-between; border-bottom: 1px solid rgba(255, 255, 255, 0.05); position: relative; z-index: 2000; transition: all 0.3s ease; }
+/* 标题栏左半边：把返回键和名字包在一起。 */
+.header-left { display: flex; align-items: center; gap: 10px; }
+/* 名字和状态（比如在线/离线）竖着排的盒子。 */
+.header-info { display: flex; flex-direction: column; justify-content: center; }
+/* 返回按钮（<）。 */
+.back-btn { width: 24px; height: 24px; display: flex; align-items: center; cursor: pointer; color: rgba(255, 255, 255, 0.9); transition: opacity 0.2s;}
+.back-btn:active { opacity: 0.5; }
+/* 对话人名字标题。 */
+.detail-title { color: rgba(255, 255, 255, 0.95); font-size: 15px; font-weight: 500; letter-spacing: 0.5px; line-height: 1.1; margin-bottom: 1px; }
+/* 在线状态小字。 */
+.online-status { color: rgba(255, 255, 255, 0.4); font-size: 10px; line-height: 1; margin-top: 0px; }
+/* 右上角的“更多(…)”图标。 */
+.detail-more { width: 24px; height: 24px; display: flex; justify-content: center; align-items: center; color: rgba(255, 255, 255, 0.7); cursor: pointer; transition: opacity 0.2s; }
+.detail-more:active { opacity: 0.5; }
+
+/* 多选模式下顶部的特殊栏：平时藏起来，长按多选的时候出现，比如显示“已选择 2 项”。 */
+.ms-header-content { display: none; width: 100%; justify-content: space-between; align-items: center; position: absolute; left: 0; top: 0; height: 100%; padding: 40px 12px 15px; box-sizing: border-box; background: transparent; z-index: 10; color: #fff; font-size: 14px;}
+.screen-chat.multi-select-mode .ms-header-content { display: flex; }
+/* 多选时把正常的标题名字透明隐藏掉。 */
+.screen-chat.multi-select-mode .chat-detail-header > *:not(.ms-header-content) { opacity: 0; pointer-events: none; }
+
+/* 聊天消息的滚筒：一大块用来放聊天气泡的地方，能上下滑。 */
+.chat-messages { 
+  flex-grow: 1; overflow-y: auto; padding: 20px 8px; display: flex; flex-direction: column; gap: 20px; 
+  scroll-behavior: smooth; -ms-overflow-style: none; scrollbar-width: none; position: relative; overflow-x: hidden; 
+}
+.chat-messages::-webkit-scrollbar { display: none; }
+
+/* 单行消息容器：包着一条完整的气泡+头像。加了个从下往上滑进来的出场动画。 */
+.msg-row { 
+  display: flex; width: 100%; align-items: flex-start; gap: 10px; 
+  animation: slideUpMsg 0.4s cubic-bezier(0.25, 0.8, 0.25, 1) forwards; 
+  position: relative; transform-origin: top center; transition: transform 0.3s ease, padding 0.3s ease; 
+}
+/* 删掉一条消息时，它会干瘪缩小消失，这堆都是为了把原本占的地方空出来。 */
+.msg-row.deleting {
+  animation: none !important; transition: opacity 0.3s ease, max-height 0.3s ease, margin 0.3s ease, padding 0.3s ease, transform 0.3s ease !important;
+  opacity: 0 !important; max-height: 0 !important; margin-top: 0 !important; margin-bottom: -20px !important; padding-top: 0 !important; padding-bottom: 0 !important;
+  transform: scale(0.85) !important; overflow: hidden !important; border: none !important;
+}
+/* 消息向上滑动弹出的详细动画。 */
+@keyframes slideUpMsg { 0% { opacity: 0; transform: translateY(15px) scale(0.95); } 60% { opacity: 1; transform: translateY(-2px) scale(1.02); } 100% { opacity: 1; transform: translateY(0) scale(1); } }
+
+/* 如果是别人发的消息，靠左边排。 */
+.msg-row.receiver { justify-content: flex-start; }
+/* 如果是你发的消息，靠右边排。 */
+.msg-row.sender { justify-content: flex-end; }
+
+/* 装聊天头像的竖列（可能头像下还有字）。 */
+.avatar-col { display: flex; flex-direction: column; align-items: center; gap: 2px; flex-shrink: 0; position: relative; z-index: 2;}
+/* 聊天气泡边上的小方头像。 */
+.msg-avatar { width: 32px; height: 32px; border-radius: 4px; object-fit: cover; box-shadow: 0 2px 8px rgba(0,0,0,0.2); }
+/* 消息边上的小时间字。 */
+.msg-time { font-size: 9px; color: rgba(255, 255, 255, 0.35); line-height: 1; margin-top: 2px; }
+/* 气泡本体的容器：限制一下它最宽不能超过屏幕的65%。 */
+.msg-content { display: flex; flex-direction: column; max-width: 65%; position: relative; z-index: 2; }
+/* 你的消息里内容往右靠。 */
+.sender .msg-content { align-items: flex-end; }
+/* 对方的消息里内容往左靠。 */
+.receiver .msg-content { align-items: flex-start; }
+
+/* 多选模式下每条消息旁边的打钩小圆圈。平时是完全透明隐形的。 */
+.msg-checkbox {
+  position: absolute; left: 0px; top: 16px; transform: translateY(-50%);
+  width: 18px; height: 18px; border-radius: 50%; border: 1.5px solid rgba(255,255,255,0.4);
+  opacity: 0; pointer-events: none; transition: opacity 0.3s, background 0.2s, border-color 0.2s; z-index: 20; box-sizing: border-box;
+}
+/* 多选模式开启，小圆圈现身。 */
+.screen-chat.multi-select-mode .msg-checkbox { opacity: 1; }
+.screen-chat.multi-select-mode .msg-row.receiver, .screen-chat.multi-select-mode .msg-row.sender, .screen-chat.multi-select-mode .msg-row.sys-msg { transform: none; }
+/* 为了给左边的小圆圈腾位置，别人的消息稍微往右边挪一挪。 */
+.screen-chat.multi-select-mode .msg-row.receiver { padding-left: 28px; }
+
+/* 勾选上这条消息后：小圆圈填成白色，里面画个黑色的对号。 */
+.msg-row.selected .msg-checkbox { background: rgba(255, 249, 240, 0.95); border-color: rgba(255, 249, 240, 0.95); }
+.msg-row.selected .msg-checkbox::after { 
+  content: ''; position: absolute; width: 4px; height: 8px; border: solid #1a1a1a; border-width: 0 2px 2px 0; 
+  top: 50%; left: 50%; transform: translate(-50%, -60%) rotate(45deg); 
+}
+/* 多选模式下铺在消息上的一层隐形玻璃，让你点哪都能勾上，不会误点到别的按钮。 */
+.multi-overlay { display: none; position: absolute; inset: 0; z-index: 21; cursor: pointer; }
+.screen-chat.multi-select-mode .multi-overlay { display: block; }
+
+/* 聊天气泡本体：那个装着字的背景块！设置了圆角、字体大小、还能自动换行。 */
+.msg-bubble { 
+  padding: 9px 12px; font-size: 13px; line-height: 1.5; letter-spacing: 0.5px; margin-top: 0; 
+  word-break: break-word; white-space: pre-wrap; outline: none; transition: box-shadow 0.2s, background 0.2s;
+}
+/* 如果这个气泡正在被编辑（二次修改），加个发光圈。 */
+.msg-bubble[contenteditable="true"] { box-shadow: 0 0 0 1.5px rgba(255,255,255,0.8); background: rgba(255,255,255,0.15); cursor: text; user-select: auto !important; -webkit-user-select: auto !important; }
+.sender .msg-bubble.editing { background: rgba(255, 249, 240, 0.95); }
+/* 对方发的气泡颜色：灰黑色底，白字。左上角不是圆角，制造个小尾巴错觉。 */
+.receiver .msg-bubble { background: rgba(255, 255, 255, 0.1); color: rgba(255, 255, 255, 0.9); border: 1px solid rgba(255, 255, 255, 0.05); border-radius: 0px 8px 8px 8px; }
+/* 你发的气泡颜色：亮白色底，黑字。右上角不是圆角。 */
+.sender .msg-bubble { background: rgba(245, 245, 245, 0.95); color: #1a1a1a; font-weight: 500; border-radius: 8px 0px 8px 8px; }
+
+/* 对方正在输入... 的那个三个小点跳动的动画条。 */
+.typing-indicator { display: flex; gap: 4px; align-items: center; justify-content: center; height: 18px; padding: 0 4px; }
+/* 跳动的三个小圆点。 */
+.typing-indicator span { width: 4px; height: 4px; background-color: rgba(255,255,255,0.7); border-radius: 50%; animation: typeBounce 1.4s infinite ease-in-out both; }
+/* 调整三个小点起跳的时间差，形成波浪。 */
+.typing-indicator span:nth-child(1) { animation-delay: -0.32s; }
+.typing-indicator span:nth-child(2) { animation-delay: -0.16s; }
+/* 小点放大缩小的魔法。 */
+@keyframes typeBounce { 0%, 80%, 100% { transform: scale(0); } 40% { transform: scale(1); } }
+
+/* 包住头像的外框。 */
+.avatar-wrap { position: relative; display: flex; justify-content: center; align-items: center; border-radius: 4px; }
+/* 头像刚加载出来时弹一下的动画。 */
+.avatar-wrap.loading .msg-avatar { position: relative; z-index: 1; animation: avatarPop 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards; }
+/* 头像弹出的魔法。 */
+@keyframes avatarPop { 0% { transform: scale(0.5); opacity: 0; } 100% { transform: scale(1); opacity: 1; } }
+
+/* 当发的是文件而不是文字时，气泡变成一张文件卡片。 */
+.msg-file-card { background: rgba(255, 255, 255, 0.15); border: 1px solid rgba(255,255,255,0.3); border-radius: 8px; padding: 12px; cursor: pointer; display: flex; align-items: center; gap: 10px; transition: background 0.2s; }
+.msg-file-card:active { background: rgba(255, 255, 255, 0.25); }
+/* 文件卡片上的小方块图标，比如写着“PDF”。 */
+.file-icon { width: 28px; height: 28px; background: #fff; color: #000; border-radius: 4px; display: flex; justify-content: center; align-items: center; font-weight: bold; font-size: 14px; }
+/* 文件名等信息。 */
+.file-info { font-size: 11px; color: rgba(255,255,255,0.9); }
+
+/* 消息下面的那一堆“表态”小表情（点赞、笑哭之类）的外壳。 */
+.msg-reactions { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 6px; }
+/* 单个表态的小表情框：灰底带小圆角。 */
+.reaction-tag { background: rgba(255,255,255,0.1); border: 1px solid rgba(255,255,255,0.15); color: rgba(255,255,255,0.9); border-radius: 4px; font-size: 14px; display: inline-flex; align-items: center; justify-content: center; width: 26px; height: 26px; min-width: 26px; padding: 0; box-sizing: border-box; transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1); cursor: pointer; overflow: hidden; transform-origin: center; }
+/* 隐藏里面的备用文字。 */
+.reaction-tag span { display: none; }
+/* 当取消某个表态表情时，它干瘪消失的过程。 */
+.reaction-tag.deleting-reaction { transform: scale(0); opacity: 0; max-width: 0; min-width: 0; padding-left: 0; padding-right: 0; margin-left: 0; margin-right: 0; border-width: 0; }
+
+/* 引用回复别人的消息时，输入框上方会多出来的一条引用栏。 */
+.quote-bar { display: none; justify-content: space-between; align-items: center; padding: 8px 15px; background: rgba(0,0,0,0.4); border-top: 1px solid rgba(255,255,255,0.05); z-index: 2000; }
+/* 屏幕最底下整个打字发送区域的容器。 */
+.input-area-wrapper { position: relative; z-index: 2000; background: rgba(0, 0, 0, 0.3); border-top: 1px solid rgba(255, 255, 255, 0.05); -webkit-user-select: auto; user-select: auto; }
+/* 放输入框、加号、发送按钮的那一行。 */
+.chat-input-area { padding: 16px 15px; display: flex; align-items: center; gap: 12px; }
+/* 一旦开启多选模式，就把打字区强行藏起来，不让你一边选一边打字。 */
+.screen-chat.multi-select-mode .chat-input-area, .screen-chat.multi-select-mode .quote-bar { display: none !important; }
+
+/* 多选模式下专用的底部工具栏：用来放“删除选中”、“转发选中”的按钮。 */
+.ms-toolbar { display: none; width: 100%; height: 66px; justify-content: space-around; align-items: center; padding-bottom: 10px; box-sizing: border-box; }
+.screen-chat.multi-select-mode .ms-toolbar { display: flex; }
+/* 多选工具栏里的单个按钮。 */
+.ms-toolbar-btn { width: 32px; height: 32px; display: flex; justify-content: center; align-items: center; cursor: pointer; border-radius: 50%; transition: background 0.2s; }
+.ms-toolbar-btn:active { background: rgba(255,255,255,0.1); }
+.ms-toolbar-btn img { width: 18px; height: 18px; object-fit: contain; filter: brightness(0) invert(1); }
+
+/* 输入框左边的那个添加（+）或者表情图标按钮。 */
+.input-icon-btn { width: 32px; height: 32px; border-radius: 10px; border: 1px solid rgba(255, 255, 255, 0.2); display: flex; justify-content: center; align-items: center; color: rgba(255, 255, 255, 0.7); font-size: 20px; font-weight: 300; cursor: pointer; flex-shrink: 0; }
+/* 真正让你点进去闪烁光标打字的长条输入框外壳。 */
+.msg-input-wrap { flex-grow: 1; height: 34px; background: rgba(255, 255, 255, 0.08); border-radius: 10px; display: flex; align-items: center; padding: 0 12px; border: 1px solid rgba(255, 255, 255, 0.05); -webkit-user-select: auto; user-select: auto; }
+/* 聊天输入框本体：让你打字的地方，背景透明，字体白色。 */
+.msg-input { width: 100%; background: transparent; border: none; outline: none; color: rgba(255,255,255,0.9); font-size: 12px; letter-spacing: 0.5px; user-select: auto !important; -webkit-user-select: auto !important; }
+/* 输入框没字时的提示文字：稍微暗一点。 */
+.msg-input::placeholder { color: rgba(255,255,255,0.3); text-transform: uppercase; }
+/* 右边的发送（飞机/箭头）按钮。 */
+.send-btn { width: 32px; height: 32px; background: rgba(255, 249, 240, 0.95); border-radius: 10px; display: flex; justify-content: center; align-items: center; color: #1a1a1a; cursor: pointer; flex-shrink: 0; transition: transform 0.2s; }
+.send-btn:active { transform: scale(0.9); }
+
+/* =======================================
+   第十一部分：消息长按菜单和表情回复
+=======================================
+*/
+
+/* 长按消息弹出来的横条菜单（复制、转发、撤回等）：带毛玻璃和阴影，默认透明藏着。 */
+.msg-context-menu { position: absolute; background: rgba(40, 42, 48, 0.85); border-radius: 12px; border: 1px solid rgba(255, 255, 255, 0.1); box-shadow: 0 10px 30px rgba(0,0,0,0.4); z-index: 1000; display: grid; grid-template-columns: repeat(6, 1fr); opacity: 0; pointer-events: none; transition: opacity 0.2s ease; color: rgba(255,255,255,0.8); width: 240px; height: 36px; box-sizing: border-box; margin: 0; }
+/* 弹出来现形。 */
+.msg-context-menu.show { opacity: 1; pointer-events: auto; }
+/* 菜单里的单个小功能按钮，图标字很小。 */
+.menu-action { display: flex; flex-direction: column; align-items: center; justify-content: center; cursor: pointer; gap: 3px; border-radius: 4px; width: 100%; height: 100%; transition: background 0.1s;}
+.menu-action:active { background: rgba(255,255,255,0.08); }
+.menu-icon-placeholder { width: 18px; height: 18px; display: flex; justify-content: center; align-items: center; }
+.menu-action span { font-size: 9px; line-height: 1; transform: scale(0.85); }
+
+/* 长按消息上面弹出来的一排能直接贴在消息上的表态表情框。 */
+.inline-reaction-picker { position: absolute; background: rgba(40, 42, 48, 0.85); border-radius: 12px; border: 1px solid rgba(255, 255, 255, 0.1); box-shadow: 0 10px 30px rgba(0,0,0,0.4); z-index: 1001; opacity: 0; pointer-events: none; transition: opacity 0.2s ease, height 0.3s cubic-bezier(0.2, 0.8, 0.2, 1); width: 240px; height: 36px; box-sizing: border-box; padding: 0; margin: 0; }
+.inline-reaction-picker.show { opacity: 1; pointer-events: auto; }
+/* 如果点展开，这个表情框会被拉高变成一个大面板。 */
+.inline-reaction-picker.expanded { height: 144px; }
+/* 表情框里面的排版：网格状排列一堆表情。 */
+.reaction-grid-inner { width: 100%; height: 100%; overflow: hidden; border-radius: 12px; display: grid; grid-template-columns: repeat(8, 1fr); justify-items: center; align-items: center; grid-auto-rows: 36px; box-sizing: border-box; position: relative; }
+/* 展开后，表情太多的话可以上下滑动。 */
+.inline-reaction-picker.expanded .reaction-grid-inner { overflow-y: auto; scrollbar-width: none; }
+.inline-reaction-picker.expanded .reaction-grid-inner::-webkit-scrollbar { display: none; }
+/* 单个小表情按钮。 */
+.reaction-cell { display: flex; flex-direction: column; align-items: center; justify-content: center; cursor: pointer; border-radius: 4px; width: 100%; height: 100%; transition: background 0.1s; }
+.reaction-cell:active { background: rgba(255,255,255,0.08); }
+/* 表情的底座小方块。 */
+.reaction-icon-box { width: 20px; height: 20px; background: rgba(255,255,255,0.08); border-radius: 4px; display: flex; justify-content: center; align-items: center; font-size: 14px; transition: transform 0.1s; user-select: none; }
+/* 拖拽表情时的目标虚线框：告诉你拖到这儿就能松手了。 */
+.reaction-cell.drag-target .reaction-icon-box { position: relative; }
+.reaction-cell.drag-target .reaction-icon-box::after { content: ''; position: absolute; top: -4px; left: -4px; right: -4px; bottom: -4px; border: 1px dashed rgba(255,255,255,0.6); border-radius: 6px; pointer-events: none; }
+/* 控制手机上的触摸滑动拖拽特性。 */
+.draggable-emoji { touch-action: pan-y; } 
+/* 按住表情时它会放大一点。 */
+.draggable-emoji:active .reaction-icon-box { transform: scale(1.2); background: rgba(255,255,255,0.15); }
+/* 展开所有表情的那个“下拉/上翻”箭头。 */
+.expand-btn-box { color: rgba(255,255,255,0.7); }
+/* 面板展开时，箭头翻个身朝上。 */
+.expanded .expand-btn-box svg { transform: rotate(180deg); }
+
+/* =======================================
+   第十二部分：特殊“票据/胶卷卡片”定制模块
+=======================================
+*/
+
+/* 票据展示界面的大黑遮罩：弹出来铺满全屏，背景黑黑的。 */
+.ticket-modal-overlay {
+  position: absolute; inset: 0; z-index: 4000; display: flex; flex-direction: column; align-items: center; 
+  background: var(--bg-overlay); 
+  opacity: 0; pointer-events: none; visibility: hidden; transition: opacity 0.35s, visibility 0s 0.35s;
+  overflow-y: auto; padding: 40px 0; -ms-overflow-style: none; scrollbar-width: none;
+}
+.ticket-modal-overlay::-webkit-scrollbar { display: none; }
+.ticket-modal-overlay.show { opacity: 1; pointer-events: auto; visibility: visible; transition: opacity 0.35s, visibility 0s; }
+
+/* 中间那块放票据本体的工作区，弹出来时有个从下面升上来的动画。 */
+.ticket-workspace {
+  display: flex; align-items: flex-start; justify-content: center; padding: 0 20px; filter: drop-shadow(var(--shadow-main));
+  transform: translateY(30px); opacity: 0; transition: transform 0.4s cubic-bezier(0.2,0.8,0.2,1), opacity 0.35s; margin: auto 0; 
+}
+.ticket-modal-overlay.show .ticket-workspace { transform: translateY(0); opacity: 1; }
+
+/* 左边或者旁边的一条胶片胶卷一样的东西的外壳。 */
+.strip-col { position: relative; display: flex; flex-direction: column; align-items: center; margin-right: 12px; width: 55px; }
+/* 胶卷顶上那个像推拉开关一样的把手。 */
+.strip-toggle { position: absolute; top: -18px; width: 48px; height: 18px; z-index: 20; background: linear-gradient(to bottom, #4a4a4a, #2a2a2a); border: 1px solid #111; border-radius: 6px 6px 0 0; box-shadow: inset 0 2px 3px rgba(255,255,255,0.2), 0 -2px 6px rgba(0,0,0,0.6); cursor: pointer; display: flex; justify-content: center; align-items: flex-end; padding-bottom: 3px; box-sizing: border-box; }
+.strip-toggle:active { background: linear-gradient(to bottom, #3a3a3a, #1a1a1a); }
+.strip-toggle::after { content: ''; width: 30px; height: 4px; background: #000; border-radius: 2px; box-shadow: inset 0 1px 2px rgba(0,0,0,0.9), 0 1px 0 rgba(255,255,255,0.1); }
+
+/* 缩略图列表/胶片区：一长串可以滑动的区域。 */
+.ticket-strip-area { width: 100%; max-height: 285px; overflow-y: auto; display: flex; flex-direction: column; align-items: center; scrollbar-width: none; }
+.ticket-strip-area::-webkit-scrollbar { display: none; }
+/* 单个小票据/小照片的样子：没被选中时半透明。 */
+.mini-ticket-container { width: 50px; cursor: pointer; opacity: 0.4; margin-bottom: 0; transition: transform 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275), opacity 0.3s, filter 0.3s; transform-origin: center center; }
+/* 被选中的小照片放大、变亮。 */
+.mini-ticket-container.active { transform: scale(1.05); opacity: 1; z-index: 10; filter: drop-shadow(var(--shadow-active)); }
+
+/* 迷你小图的方块。 */
+.mini-box { width: 38px; height: 38px; border: 1px solid rgba(0,0,0,0.6); box-sizing: border-box; margin: 0 auto; background-size: cover; background-position: center; position: relative; z-index: 20; cursor: pointer; }
+/* 迷你小图下的简称小字。 */
+.mini-abbr { font-family: "ZSFT-ej", sans-serif; font-size: 14px; font-weight: normal; text-align: center; margin-top: 2px; line-height: 1; color: var(--color-mini-text); }
+
+/* 右边那张大票据/大卡片的主体容器：给了个 3D 透视角度。 */
+.ticket-builder-area { width: 180px; height: 333px; perspective: 1000px; }
+/* 控制整张卡片翻面的机械轴：像翻扑克牌一样。 */
+.ticket-flipper { width: 100%; height: 100%; position: relative; transition: transform 0.6s cubic-bezier(0.4, 0.2, 0.2, 1); transform-style: preserve-3d; }
+/* 让它翻转180度看背面。 */
+.ticket-flipper.flipped { transform: rotateY(180deg); }
+/* 卡片的正面和背面层：背靠背贴在一起，翻过去的时候隐藏另外一面。 */
+.ticket-face { position: absolute; width: 100%; height: 100%; backface-visibility: hidden; -webkit-backface-visibility: hidden; display: flex; flex-direction: column; cursor: pointer; }
+/* 背面一开始是反过来的。 */
+.ticket-face.back { transform: rotateY(180deg); }
+/* 处理翻面时候的点按冲突，不然你可能会点穿过去。 */
+.ticket-flipper.flipped .ticket-face.front, .ticket-flipper:not(.flipped) .ticket-face.back { pointer-events: none !important; }
+
+/* 票据的上半截或下半截纸片。 */
+.ticket-part { background-color: var(--bg-ticket-base); width: 100%; box-sizing: border-box; position: relative; overflow: hidden; }
+/* 带个细边框。 */
+.ticket-part.char-part { border: 0.5px solid var(--border-color); }
+/* 票据的上半段：用了一堆极其复杂的遮罩代码（mask），给它的两边挖出那种像电影票一样的半圆形缺口，下面画上虚线撕裂口。 */
+.ticket-part.upper {
+  border-bottom: none;
+  -webkit-mask-image: radial-gradient(circle at 0 100%, transparent 6px, black 6.5px), radial-gradient(circle at 100% 100%, transparent 6px, black 6.5px), radial-gradient(circle at 5px 0, transparent 2.5px, black 3px), linear-gradient(black, black);
+  -webkit-mask-position: bottom left, bottom right, top left, center 10px;
+  -webkit-mask-size: 51% 10px, 51% 10px, 10px 10px, 100% calc(100% - 20px);
+  -webkit-mask-repeat: no-repeat, no-repeat, repeat-x, no-repeat;
+}
+/* 票据的下半段：和上面一样，给上面挖半圆，对接拼成一张完整的门票。 */
+.ticket-part.lower {
+  border-top: none;
+  -webkit-mask-image: radial-gradient(circle at 0 0, transparent 6px, black 6.5px), radial-gradient(circle at 100% 0, transparent 6px, black 6.5px), radial-gradient(circle at 5px 100%, transparent 2.5px, black 3px), linear-gradient(black, black);
+  -webkit-mask-position: top left, top right, bottom left, center top 10px;
+  -webkit-mask-size: 51% 10px, 51% 10px, 10px 10px, 100% calc(100% - 20px);
+  -webkit-mask-repeat: no-repeat, no-repeat, repeat-x, no-repeat;
+}
+
+/* 规定大票据上下半截的高矮。 */
+.main-upper { height: 277px; } .main-lower { height: 56px; }
+/* 规定缩略图版小票据的高矮。 */
+.mini-upper { height: 56px; padding: 6px; } .mini-lower { height: 26px; padding: 4px; display: flex; flex-direction: column; justify-content: center; }
+/* 给小票据也挖个相应的迷你锯齿边。 */
+.ticket-part.mini-upper { -webkit-mask-image: radial-gradient(circle at 0 100%, transparent 2.5px, black 3px), radial-gradient(circle at 100% 100%, transparent 2.5px, black 3px), radial-gradient(circle at 3px 0, transparent 1.5px, black 2px), linear-gradient(black, black); -webkit-mask-size: 51% 5px, 51% 5px, 6px 5px, 100% calc(100% - 10px); -webkit-mask-position: bottom left, bottom right, top left, center 5px; }
+.ticket-part.mini-lower { -webkit-mask-image: radial-gradient(circle at 0 0, transparent 2.5px, black 3px), radial-gradient(circle at 100% 0, transparent 2.5px, black 3px), radial-gradient(circle at 3px 100%, transparent 1.5px, black 2px), linear-gradient(black, black); -webkit-mask-size: 51% 5px, 51% 5px, 6px 5px, 100% calc(100% - 10px); -webkit-mask-position: top left, top right, bottom left, center top 5px; }
+
+/* 票据正面的大背景图（底图）。 */
+.ticket-bg-img { position: absolute; left: 0; width: 100%; height: 333px; object-fit: cover; z-index: 0; display: none; }
+/* 控制底图在上下半截的拼接对其。 */
+.main-upper .ticket-bg-img { top: 0; } .main-lower .ticket-bg-img { bottom: 0; }
+/* 盖在票上面的一层薄膜（遮罩层）。 */
+.part-overlay { position: absolute; inset: 0; z-index: 1; pointer-events: none; }
+/* 正面的薄膜比较透明，为了看清图。 */
+.front-overlay { background: rgba(245, 245, 245, 0.15); }
+/* 背面的薄膜很白，为了让你能写字看清字。 */
+.back-overlay { background: rgba(245, 245, 245, 0.85); }
+
+/* 票据正面上那个可以用手打字的飘逸大字框。 */
+.front-text { position: absolute; top: 50%; left: 50%; transform: translate(-50%, -60%); z-index: 100; font-family: "ZSFT-ej", "PING FANG GONG ZI TI", sans-serif; font-size: 26px; font-weight: normal; text-align: center; white-space: nowrap; outline: none; background: transparent; border: none; padding: 5px 10px; user-select: auto; -webkit-user-select: auto; cursor: text; color: var(--back-ink); }
+
+/* 票据背面像表格一样的内容大盒子：里面全是你能写字的地方。 */
+.back-content-layer { position: absolute; inset: 0; z-index: 10; padding: 15px 12px; pointer-events: none; font-family: "ZSFT-br", "ZQKNBCGPST", sans-serif; color: var(--back-ink); display: flex; flex-direction: column; }
+/* 表格最上面的小字标题。 */
+.back-header { display: flex; justify-content: space-between; font-size: 9px; font-weight: 600; margin-bottom: 5px; padding: 0 2px; }
+/* 画这个表格框线。 */
+.back-grid { flex-grow: 1; border: 1px solid var(--back-ink); display: flex; flex-direction: column; pointer-events: auto; }
+/* 表格里每一行的横线。 */
+.bg-row { border-bottom: 1px solid var(--back-ink); padding: 6px 8px; display: flex; flex-direction: column; justify-content: center; }
+/* 给每一行分配不同的高矮胖瘦（权重）。 */
+.row-title { flex: 1.2; justify-content: flex-start; } .row-info { flex: 1.5; justify-content: space-evenly; }
+.row-rating { flex: 0.8; flex-direction: row; justify-content: flex-start; align-items: center; }
+.row-review { flex: 1.6; justify-content: flex-start; padding-top: 4px; }
+.row-datetime { flex: 0.8; flex-direction: row; align-items: center; justify-content: space-between; }
+/* 比如这一排可能是写类似“座位号”左右两格。 */
+.row-seat { flex: 1.2; display: flex; flex-direction: row; }
+.seat-col { flex: 1; display: flex; flex-direction: column; align-items: center; justify-content: center; }
+/* 左边加上一根竖线把它隔开。 */
+.border-left { border-left: 1px solid var(--back-ink); }
+/* 表格里“姓名”、“时间”这种特别小的提示性标题。 */
+.box-label { font-size: 8px; font-weight: 700; margin-bottom: 2px; text-transform: capitalize; }
+/* 让你把提示语和填空的地方放在同一排。 */
+.info-line { display: flex; align-items: baseline; font-size: 9px; width: 100%; }
+.info-line .box-label { margin-right: 4px; margin-bottom: 0; flex-shrink: 0; }
+
+/* 票据背面里让你填空打字的地方（单行）：全部去掉了难看的默认边框。 */
+.back-input { background: transparent; border: none; outline: none; color: var(--back-ink); font-family: "ZSFT-br", "ZQKNBCGPST", sans-serif; font-size: 9.5px; font-weight: 500; width: 100%; padding: 0; user-select: auto; -webkit-user-select: auto; }
+/* 比较大、居中的那种手写风输入框。 */
+.cursive-input { font-family: "ZSFT-ej", "PING FANG GONG ZI TI", sans-serif; font-size: 26px; text-align: center; margin-top: 4px; font-weight: normal; }
+/* 靠左加粗的短词输入框。 */
+.tone-input { direction: ltr !important; text-align: left !important; flex-grow: 1; margin-left: 8px; font-weight: 600; }
+/* 让你写一大段话的地方（多行文本框）：不会有边框，也不许你用鼠标把它拉扯大。 */
+.back-textarea { background: transparent; border: none; outline: none; color: var(--back-ink); font-family: "ZSFT-br", "ZQKNBCGPST", sans-serif; font-size: 9.5px; font-weight: 500; width: 100%; flex-grow: 1; resize: none; margin-top: 0px; line-height: 1.2; user-select: auto; -webkit-user-select: auto; }
+/* 座位号那种粗一点大一点的字。 */
+.seat-val { font-size: 11px; font-weight: 700; text-align: center; margin-top: 2px; }
+/* 把票据背面可能出现的烦人滚动条全部藏起来。 */
+.back-textarea::-webkit-scrollbar, .back-grid::-webkit-scrollbar, .back-content-layer::-webkit-scrollbar, .bg-row::-webkit-scrollbar { display: none !important; }
+.back-textarea, .back-grid, .back-content-layer, .bg-row { scrollbar-width: none !important; -ms-overflow-style: none !important; }
+
+/* =======================================
+   第十三部分：后期加的过渡动画
+=======================================
+*/
+
+/* 手机桌面的缩放淡出动画：让你开APP或关APP时，桌面会有个推近推远的纵深感。 */
+/* 当你进其他软件时，桌面躲到后面去：往回缩一点，并且变透明隐藏。 */
+.screen-home.hide-to-bg {
+    transform: scale(0.92); /* 桌面略微后退缩小 */
+    opacity: 0;
+    pointer-events: none;
+}
+/* 聊天软件的那个大容器外壳。 */
+#screenChatHome {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 50;
+    transition: transform 0.4s cubic-bezier(0.36, 0.66, 0.04, 1), opacity 0.4s ease, visibility 0.4s;
+    /* 初始隐藏状态：它在桌面的上一层，不仅透明，而且稍微小一点并且靠下（就像躲在屏幕下面）。 */
+    opacity: 0;
+    transform: scale(0.95) translateY(20px);
+    pointer-events: none;
+    visibility: hidden;
+    background-color: transparent; /* 兜底背景，防止动画过程中的穿透闪烁（怕黑屏漏光） */
+}
+/* 打开聊天软件的魔法效果：它从下面慢慢放大弹上来，完全显示，遮住桌面。 */
+#screenChatHome.active-screen {
+    opacity: 1;
+    transform: scale(1) translateY(0);
+    pointer-events: auto;
+    visibility: visible;
+}
+/* 聊天应用的搜索栏：比桌面搜索栏矮一点、字小一点，去掉磨砂效果 */
+.screen-chat-home .search-bar {
+    height: 30px;
+    font-size: 12px;
+    padding: 0 12px;
+    background-color: rgba(255, 255, 255, 0.08);
+    border: 1px solid rgba(255, 255, 255, 0.05);
+}
