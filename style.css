@@ -17,7 +17,7 @@ body {
     display: flex;
     justify-content: center;
     align-items: center;
-    background-color: #333333; 
+    background-color: transparent; 
     -webkit-user-select: none;
     user-select: none;
     font-family: "KokoroMinchoutai", sans-serif;
@@ -31,7 +31,7 @@ body {
     border: none; 
     border-radius: 36px;
     box-shadow: 0 0 30px rgba(0,0,0,0.6);
-    background: #333333;
+    background: url('https://cac-assets.oss-cn-shanghai.aliyuncs.com/cms/report/12d1d121/bVCgDuKc_vip.jpg') center/cover no-repeat;
     position: relative;
     overflow: hidden;
 }
@@ -881,13 +881,13 @@ body {
 */
 
 /* 个人主页整个大容器：从屏幕右边滑进来的，黑色底，挡住其他所有东西。 */
-.profile-screen { position: absolute; inset: 0; z-index: 100; display: flex; flex-direction: column; background: #333333; transform: translateX(100%); opacity: 0; visibility: hidden; transition: transform 0.45s cubic-bezier(0.25,0.9,0.3,1), opacity 0.35s, visibility 0s 0.45s; pointer-events: none; overflow-y: auto; scrollbar-width: none; }
+.profile-screen { position: absolute; inset: 0; z-index: 100; display: flex; flex-direction: column; background: transparent; transform: translateX(100%); opacity: 0; visibility: hidden; transition: transform 0.45s cubic-bezier(0.25,0.9,0.3,1), opacity 0.35s, visibility 0s 0.45s; pointer-events: none; overflow-y: auto; scrollbar-width: none; }
 .profile-screen::-webkit-scrollbar { display: none; }
 /* 激活时，刷的一下从右滑到中间。 */
 .profile-screen.active { transform: translateX(0); opacity: 1; visibility: visible; transition: transform 0.45s cubic-bezier(0.25,0.9,0.3,1), opacity 0.35s, visibility 0s; pointer-events: auto; }
 
 /* 个人主页上半部的大背景图区域：一块200像素高的黑色地带。 */
-.profile-bg { position: relative; width: 100%; height: 200px; background: #333333; overflow: hidden; flex-shrink: 0; cursor: pointer; }
+.profile-bg { position: relative; width: 100%; height: 200px; background: transparent; overflow: hidden; flex-shrink: 0; cursor: pointer; }
 /* 背景图本体：盖在背景区里，透明度稍微调低了一点。 */
 .profile-bg-img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; opacity: 0.7; display: none; }
 /* 左上角的圆形返回按钮：“<”号，半透明毛玻璃底座。 */
@@ -951,7 +951,7 @@ body {
 /* 聊天对话大页面：点人进去跟你一句我一句说话的那个页面。从屏幕右边带毛玻璃效果滑进来。 */
 .screen-chat {
   position: absolute; inset: 0; z-index: 50; display: flex; flex-direction: column;
-  background: #333333; 
+  background: transparent; 
   transform: translateX(100%); opacity: 0; visibility: hidden; 
   transition: transform 0.5s cubic-bezier(0.25, 0.9, 0.3, 1), opacity 0.35s ease, visibility 0s 0.5s; 
   pointer-events: none;
@@ -1327,7 +1327,7 @@ body {
     transform: scale(0.95) translateY(20px);
     pointer-events: none;
     visibility: hidden;
-    background-color: #333333; /* 兜底背景，防止动画过程中的穿透闪烁（怕黑屏漏光） */
+    background-color: transparent; /* 兜底背景，防止动画过程中的穿透闪烁（怕黑屏漏光） */
 }
 /* 打开聊天软件的魔法效果：它从下面慢慢放大弹上来，完全显示，遮住桌面。 */
 #screenChatHome.active-screen {
