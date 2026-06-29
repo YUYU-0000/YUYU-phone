@@ -411,7 +411,6 @@ body {
 /* 桌面搜索框：一个半透明、带毛玻璃特效的长条。 */
 .search-bar {
     width: 100%; height: 38px;
-    backdrop-filter: blur(15px); -webkit-backdrop-filter: blur(15px);
     background-color: rgba(255, 255, 255, 0.05);
     border: none; border-radius: 10px; box-shadow: 0 4px 10px rgba(0, 0, 0, 0.08); 
     display: flex; align-items: center; padding: 0 15px;
@@ -1118,6 +1117,10 @@ body {
 .input-icon-btn { width: 32px; height: 32px; border-radius: 10px; border: 1px solid rgba(255, 255, 255, 0.2); display: flex; justify-content: center; align-items: center; color: rgba(255, 255, 255, 0.7); font-size: 20px; font-weight: 300; cursor: pointer; flex-shrink: 0; }
 /* 真正让你点进去闪烁光标打字的长条输入框外壳。 */
 .msg-input-wrap { flex-grow: 1; height: 34px; background: rgba(255, 255, 255, 0.08); border-radius: 10px; display: flex; align-items: center; padding: 0 12px; border: 1px solid rgba(255, 255, 255, 0.05); -webkit-user-select: auto; user-select: auto; }
+/* 聊天输入框本体：让你打字的地方，背景透明，字体白色。 */
+.msg-input { width: 100%; background: transparent; border: none; outline: none; color: rgba(255,255,255,0.9); font-size: 12px; letter-spacing: 0.5px; user-select: auto !important; -webkit-user-select: auto !important; }
+/* 输入框没字时的提示文字：稍微暗一点。 */
+.msg-input::placeholder { color: rgba(255,255,255,0.3); text-transform: uppercase; }
 /* 右边的发送（飞机/箭头）按钮。 */
 .send-btn { width: 32px; height: 32px; background: rgba(255, 249, 240, 0.95); border-radius: 10px; display: flex; justify-content: center; align-items: center; color: #1a1a1a; cursor: pointer; flex-shrink: 0; transition: transform 0.2s; }
 .send-btn:active { transform: scale(0.9); }
@@ -1301,7 +1304,7 @@ body {
 .back-textarea, .back-grid, .back-content-layer, .bg-row { scrollbar-width: none !important; -ms-overflow-style: none !important; }
 
 /* =======================================
-   第十三部分：后期加的过渡补丁动画
+   第十三部分：后期加的过渡动画
 =======================================
 */
 
@@ -1334,4 +1337,14 @@ body {
     transform: scale(1) translateY(0);
     pointer-events: auto;
     visibility: visible;
+}
+/* 聊天应用的搜索栏：比桌面搜索栏矮一点、字小一点，去掉磨砂效果 */
+.screen-chat-home .search-bar {
+    height: 30px;
+    font-size: 12px;
+    padding: 0 12px;
+    background-color: rgba(255, 255, 255, 0.08);
+    border: 1px solid rgba(255, 255, 255, 0.05);
+    backdrop-filter: none;
+    -webkit-backdrop-filter: none;
 }

@@ -1,225 +1,367 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="zh-CN">
-<head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-<title>模拟手机页面 - 包含聊天应用</title>
+  <head>
+    <meta charset="UTF-8" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"
+    />
+    <title>YUYU-HUMAN-BEING/*</title>
 
-<!-- 🎀 主界面桌面用的字体 -->
-<link href="https://fontsapi.zeoseven.com/411/main/result.css" onload="this.rel='stylesheet'" rel="preload" as="style" crossorigin />
-<noscript><link rel="stylesheet" href="https://fontsapi.zeoseven.com/411/main/result.css" /></noscript>
-<link href="https://fontsapi.zeoseven.com/577/main/result.css" onload="this.rel='stylesheet'" rel="preload" as="style" crossorigin />
-<noscript><link rel="stylesheet" href="https://fontsapi.zeoseven.com/577/main/result.css" /></noscript>
+    <!-- 🎀 主界面桌面用的字体 -->
+    <link
+      href="https://fontsapi.zeoseven.com/411/main/result.css"
+      onload="this.rel = 'stylesheet'"
+      rel="preload"
+      as="style"
+      crossorigin
+    />
+    <noscript
+      ><link
+        rel="stylesheet"
+        href="https://fontsapi.zeoseven.com/411/main/result.css"
+    /></noscript>
+    <link
+      href="https://fontsapi.zeoseven.com/577/main/result.css"
+      onload="this.rel = 'stylesheet'"
+      rel="preload"
+      as="style"
+      crossorigin
+    />
+    <noscript
+      ><link
+        rel="stylesheet"
+        href="https://fontsapi.zeoseven.com/577/main/result.css"
+    /></noscript>
 
-<!-- 🎀 聊天应用用的字体 -->
-<link href="https://fontsapi.zeoseven.com/5/main/result.css" onload="this.rel='stylesheet'" rel="preload" as="style" crossorigin />
-<noscript><link rel="stylesheet" href="https://fontsapi.zeoseven.com/5/main/result.css" /></noscript>
-<link href="https://fontsapi.zeoseven.com/157/main/result.css" onload="this.rel='stylesheet'" rel="preload" as="style" crossorigin />
-<noscript><link rel="stylesheet" href="https://fontsapi.zeoseven.com/157/main/result.css" /></noscript>
-<link href="https://fontsapi.zeoseven.com/309/main/result.css" onload="this.rel='stylesheet'" rel="preload" as="style" crossorigin />
-<noscript><link rel="stylesheet" href="https://fontsapi.zeoseven.com/309/main/result.css" /></noscript>
-<link href="https://fontsapi.zeoseven.com/2207/main/result.css" onload="this.rel='stylesheet'" rel="preload" as="style" crossorigin />
-<noscript><link rel="stylesheet" href="https://fontsapi.zeoseven.com/2207/main/result.css" /></noscript>
+    <!-- 🎀 聊天应用用的字体 -->
+    <link
+      href="https://fontsapi.zeoseven.com/5/main/result.css"
+      onload="this.rel = 'stylesheet'"
+      rel="preload"
+      as="style"
+      crossorigin
+    />
+    <noscript
+      ><link
+        rel="stylesheet"
+        href="https://fontsapi.zeoseven.com/5/main/result.css"
+    /></noscript>
+    <link
+      href="https://fontsapi.zeoseven.com/157/main/result.css"
+      onload="this.rel = 'stylesheet'"
+      rel="preload"
+      as="style"
+      crossorigin
+    />
+    <noscript
+      ><link
+        rel="stylesheet"
+        href="https://fontsapi.zeoseven.com/157/main/result.css"
+    /></noscript>
+    <link
+      href="https://fontsapi.zeoseven.com/309/main/result.css"
+      onload="this.rel = 'stylesheet'"
+      rel="preload"
+      as="style"
+      crossorigin
+    />
+    <noscript
+      ><link
+        rel="stylesheet"
+        href="https://fontsapi.zeoseven.com/309/main/result.css"
+    /></noscript>
+    <link
+      href="https://fontsapi.zeoseven.com/2207/main/result.css"
+      onload="this.rel = 'stylesheet'"
+      rel="preload"
+      as="style"
+      crossorigin
+    />
+    <noscript
+      ><link
+        rel="stylesheet"
+        href="https://fontsapi.zeoseven.com/2207/main/result.css"
+    /></noscript>
 
-<!-- 🎀 所有样式都在这个文件里 -->
-<link rel="stylesheet" href="style.css">
-</head>
-<body>
-
-  <!-- =============================================
+    <!-- 🎀 所有样式都在这个文件里 -->
+    <link rel="stylesheet" href="style.css" />
+  </head>
+  <body>
+    <!-- =============================================
        🧩 模板区：这些 template 不会直接显示在页面上，
        是JS用来"复制粘贴"生成新元素的模具
        ============================================= -->
 
-  <!-- 📋 联系人条目模板：好友列表里每一个人长什么样 -->
-  <template id="tpl-contact-item">
-    <div class="contact-item" data-role-id="">
-      <div class="contact-avatar"></div>
-      <div class="contact-info-list">
-        <div class="contact-list-name"></div>
-        <div class="contact-status"></div>
+    <!-- 📋 联系人条目模板：好友列表里每一个人长什么样 -->
+    <template id="tpl-contact-item">
+      <div class="contact-item" data-role-id="">
+        <div class="contact-avatar"></div>
+        <div class="contact-info-list">
+          <div class="contact-list-name"></div>
+          <div class="contact-status"></div>
+        </div>
       </div>
-    </div>
-  </template>
-  <!-- 📋 字母标题模板：好友列表按字母排序时的分隔标题 -->
-  <template id="tpl-alpha-title">
-    <div class="alpha-title"></div>
-  </template>
-  <!-- 📋 聊天窗口模板：每个角色的聊天窗口都从这里复制出来 -->
-  <template id="tpl-chat-screen">
-    <div class="screen-chat">
-      <div class="chat-detail-header">
-        <div class="header-left">
-          <div class="back-btn" data-action="close-chat"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"></polyline></svg></div>
-          <div class="header-info">
-            <div class="detail-title"></div>
-            <div class="online-status">在线</div>
+    </template>
+    <!-- 📋 字母标题模板：好友列表按字母排序时的分隔标题 -->
+    <template id="tpl-alpha-title">
+      <div class="alpha-title"></div>
+    </template>
+    <!-- 📋 聊天窗口模板：每个角色的聊天窗口都从这里复制出来 -->
+    <template id="tpl-chat-screen">
+      <div class="screen-chat">
+        <div class="chat-detail-header">
+          <div class="header-left">
+            <div class="back-btn" data-action="close-chat">
+              <img src="icons/back.svg" />
+            </div>
+            <div class="header-info">
+              <div class="detail-title"></div>
+              <div class="online-status">在线</div>
+            </div>
+          </div>
+          <div class="detail-more">
+            <img src="icons/toolbox.svg" />
+          </div>
+          <div class="ms-header-content">
+            <div style="cursor: pointer" data-action="exit-ms">取消</div>
+            <div class="detail-title" style="display: block; font-size: 14px">
+              已选中 <span class="ms-count">0</span> 条
+            </div>
+            <div>
+              <img
+                src="icons/select.svg"
+                style="width: 18px; opacity: 0.6"
+              />
+            </div>
           </div>
         </div>
-        <div class="detail-more"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><line x1="5" y1="7" x2="19" y2="7"></line><line x1="5" y1="12" x2="19" y2="12"></line><line x1="5" y1="17" x2="19" y2="17"></line></svg></div>
-        <div class="ms-header-content">
-          <div style="cursor:pointer;" data-action="exit-ms">取消</div>
-          <div class="detail-title" style="display:block; font-size:14px;">已选中 <span class="ms-count">0</span> 条</div>
-          <div><img src="https://everywhere-cloud.oss-cn-shanghai.aliyuncs.com/chat/1781912460/cWBsqnSQ.png" style="width:18px; opacity:0.6;"></div>
-        </div>
-      </div>
-      
-      <div class="chat-messages">
-      </div>
-      
-      <div class="input-area-wrapper">
-        <div class="quote-bar" style="display: none;"></div>
-        <div class="chat-input-area">
-          <div class="input-icon-btn">+</div>
-          <div class="msg-input-wrap"><input type="text" class="msg-input" placeholder="MESSAGE..."></div>
-          <div class="send-btn" data-action="send-message"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="19" x2="12" y2="5"></line><polyline points="5 12 12 5 19 12"></polyline></svg></div>
-        </div>
-        <div class="ms-toolbar">
-          <div class="ms-toolbar-btn" data-action="favorite-msg"><img src="https://yun.jxnews.com.cn/sjfxt/image/6a3a50df1052416d94933d44.png"></div>
-          <div class="ms-toolbar-btn" data-action="copy-msg"><img src="https://static.eeo.cn/upload/images/20260623/3508c9bb2491cdf99366.png"></div>
-          <div class="ms-toolbar-btn" style="background:#ff4d4f;" data-action="ms-delete-msg"><img src="https://www.yn12377.cn/jubao/upload/smjb/2026/06/23/9c221cda18db46e6ad79c07e9c99b767.png" style="filter: brightness(0) invert(1);"></div>
-          <div class="ms-toolbar-btn" data-action="quote-msg"><img src="https://file.icve.com.cn/file_doc/yaEFfq6u/7nVzoaqI.png"></div>
-          <div class="ms-toolbar-btn" data-action="edit-msg"><img src="https://web.xinyifm.cn/oss/xc-app/qdqqd/FBKHxeke.png"></div>
-        </div>
-      </div>
-    </div>
-  </template>
 
-  <!-- 📂 隐藏的文件选择器：点"上传图片"时弹出来的，平时看不见 -->
-  <input type="file" id="imagePicker" style="display:none" accept="image/*">
-  <input type="file" id="bgPicker" style="display:none" accept="image/*">
-  <input type="file" id="avatarPicker" style="display:none" accept="image/*">
-  <input type="file" id="photoPicker" style="display:none" accept="image/*">
+        <div class="chat-messages"></div>
 
-  <!-- =============================================
+        <div class="input-area-wrapper">
+          <div class="quote-bar" style="display: none"></div>
+          <div class="chat-input-area">
+            <div class="input-icon-btn">+</div>
+            <div class="msg-input-wrap">
+              <input type="text" class="msg-input" placeholder="MESSAGE..." />
+            </div>
+            <div class="send-btn" data-action="send-message">
+              <img src="icons/send.svg" />
+            </div>
+          </div>
+          <div class="ms-toolbar">
+            <div class="ms-toolbar-btn" data-action="favorite-msg">
+              <img src="icons/bookmark.svg" />
+            </div>
+            <div class="ms-toolbar-btn" data-action="copy-msg">
+              <img src="icons/copy.svg" />
+            </div>
+            <div
+              class="ms-toolbar-btn"
+              style="background: #ff4d4f"
+              data-action="ms-delete-msg"
+            >
+              <img
+                src="icons/delete.svg"
+                style="filter: brightness(0) invert(1)"
+              />
+            </div>
+            <div class="ms-toolbar-btn" data-action="quote-msg">
+              <img src="icons/quote.svg" />
+            </div>
+            <div class="ms-toolbar-btn" data-action="edit-msg">
+              <img src="icons/edit.svg" />
+            </div>
+          </div>
+        </div>
+      </div>
+    </template>
+
+    <!-- 📂 隐藏的文件选择器：点"上传图片"时弹出来的，平时看不见 -->
+    <input
+      type="file"
+      id="imagePicker"
+      style="display: none"
+      accept="image/*"
+    />
+    <input type="file" id="bgPicker" style="display: none" accept="image/*" />
+    <input
+      type="file"
+      id="avatarPicker"
+      style="display: none"
+      accept="image/*"
+    />
+    <input
+      type="file"
+      id="photoPicker"
+      style="display: none"
+      accept="image/*"
+    />
+
+    <!-- =============================================
        📱 手机外壳：整个模拟手机从这里开始！
        ============================================= -->
 
-  <div class="phone-frame" id="phoneContainer">
-      
+    <div class="phone-frame" id="phoneContainer">
       <!-- 🔒 锁屏界面：显示时间和日期，往上滑可以解锁 -->
       <div class="screen-lock">
-          <div class="time-display" id="time-text">00:00</div>
-          <div class="date-display" id="date-text">2026/01/01</div>
-          <div id="unlock-btn"></div> 
+        <div class="time-display" id="time-text">00:00</div>
+        <div class="date-display" id="date-text">2026/01/01</div>
+        <div id="unlock-btn"></div>
       </div>
 
       <!-- 🏠 桌面主界面：解锁后看到的桌面，有应用图标、组件等 -->
       <div class="screen-home">
-          <!-- 💊 灵动岛：顶部的小胶囊，显示音乐状态等 -->
-          <div class="dynamic-island" id="dynamicIsland">
-              <div class="di-collapsed">
-                  <img src="https://12387.cert.org.cn/image_tent/sysresources/98f12d8a0c2c4a9ebc90a1f0c29497bb.png" class="di-album-small">
-                  <div class="di-waveform" id="diWaveform">
-                      <span></span><span></span><span></span><span></span><span></span><span></span>
-                  </div>
-              </div>
+        <!-- 💊 灵动岛：顶部的小胶囊，显示音乐状态等 -->
+        <div class="dynamic-island" id="dynamicIsland">
+          <div class="di-collapsed">
+            <img
+              src="https://12387.cert.org.cn/image_tent/sysresources/98f12d8a0c2c4a9ebc90a1f0c29497bb.png"
+              class="di-album-small"
+            />
+            <div class="di-waveform" id="diWaveform">
+              <span></span><span></span><span></span><span></span><span></span
+              ><span></span>
+            </div>
           </div>
-          
-          <!-- 💊 灵动岛展开卡片：点击灵动岛后展开的音乐控制面板 -->
-          <div class="di-card" id="diCard">
-              <div class="di-expanded">
-                  <div class="di-exp-top">
-                      <img src="https://12387.cert.org.cn/image_tent/sysresources/98f12d8a0c2c4a9ebc90a1f0c29497bb.png" class="di-album-large">
-                      <div class="di-exp-info">
-                          <div class="di-title">词：Electronic Bass</div>
-                          <div class="di-subtitle">(吉他独奏) - Electronic Bass</div>
-                      </div>
-                      <div class="di-app-icon-placeholder"></div>
-                  </div>
-                  <div class="di-exp-progress">
-                      <div class="di-bar"><div class="di-bar-fill"></div></div>
-                      <div class="di-times"><span>00:47</span><span>01:31</span></div>
-                  </div>
-                  <div class="di-exp-controls">
-                      <div class="ctrl-icon-heart"></div>
-                      <div class="ctrl-icon-prev"></div>
-                      <div class="ctrl-icon-pause"></div>
-                      <div class="ctrl-icon-next"></div>
-                      <div class="ctrl-icon-cast"></div>
-                  </div>
+        </div>
+
+        <!-- 💊 灵动岛展开卡片：点击灵动岛后展开的音乐控制面板 -->
+        <div class="di-card" id="diCard">
+          <div class="di-expanded">
+            <div class="di-exp-top">
+              <img
+                src="https://12387.cert.org.cn/image_tent/sysresources/98f12d8a0c2c4a9ebc90a1f0c29497bb.png"
+                class="di-album-large"
+              />
+              <div class="di-exp-info">
+                <div class="di-title">词：Electronic Bass</div>
+                <div class="di-subtitle">(吉他独奏) - Electronic Bass</div>
               </div>
+              <div class="di-app-icon-placeholder"></div>
+            </div>
+            <div class="di-exp-progress">
+              <div class="di-bar"><div class="di-bar-fill"></div></div>
+              <div class="di-times"><span>00:47</span><span>01:31</span></div>
+            </div>
+            <div class="di-exp-controls">
+              <div class="ctrl-icon-heart"></div>
+              <div class="ctrl-icon-prev"></div>
+              <div class="ctrl-icon-pause"></div>
+              <div class="ctrl-icon-next"></div>
+              <div class="ctrl-icon-cast"></div>
+            </div>
           </div>
+        </div>
 
-          <!-- 🕐 桌面大时钟 -->
-          <div class="large-timestamp">
-              <span id="large-hour"></span>
-              <span id="large-minute"></span>
-          </div>
+        <!-- 🕐 桌面大时钟 -->
+        <div class="large-timestamp">
+          <span id="large-hour"></span>
+          <span id="large-minute"></span>
+        </div>
 
-          <!-- 📱 桌面内容区：搜索栏 + 应用图标 + 组件 -->
-          <div class="home-content">
-              <!-- 🔍 桌面搜索栏（装饰用） -->
-              <div class="search-bar">
-                  <input type="text" class="search-input" placeholder="搜索">
-                  <img src="https://everywhere-cloud.oss-cn-shanghai.aliyuncs.com/chat/1781912460/cWBsqnSQ.png" class="search-icon" alt="搜索">
-              </div>
-
-              <!-- 📦 应用和组件网格 -->
-              <div class="main-grid">
-                  <!-- 💬 聊天应用图标：点击进入聊天界面 -->
-                  <div class="app-wrapper top-app-1">
-                      <div class="home-app-item">
-                          <img src="https://cac.opple.com/yc-media/getFile?id=3ca156d544254fc3acd0430d09401bac#.png" class="app-inner-icon" alt="消息">
-                      </div>
-                      <span class="app-label">CHAT</span>
-                  </div>
-                  <div class="app-wrapper top-app-2">
-                      <div class="home-app-item"><div class="placeholder-icon"></div></div>
-                      <span class="app-label">APP</span>
-                  </div>
-
-                  <!-- 🎵 音乐组件：唱片机样式，可以播放/暂停 -->
-                  <div class="widget-box music-widget" id="musicWidget">
-                      <div class="music-progress"><div class="music-progress-fill" id="musicProgress"></div></div>
-                      <div class="record-player-container">
-                          <div class="tonearm" id="tonearm">
-                              <div class="tonearm-joint"></div><div class="tonearm-stick"></div><div class="tonearm-head"></div>
-                          </div>
-                          <div class="turntable-platter">
-                              <div class="record-disc" id="recordDisc">
-                                  <div class="record-center"><div class="record-skeleton"></div></div>
-                              </div>
-                          </div>
-                          <div class="power-switch" id="powerSwitch">
-                              <img src="https://web.xinyifm.cn/oss/xc-app/qdqqd/4I12G0fv.png" class="switch-icon" alt="Switch">
-                          </div>
-                          <div class="record-area" id="recordArea"></div>
-                      </div>
-                  </div>
-
-                  <!-- 📷 照片组件：点击可以上传一张照片显示在桌面 -->
-                  <div class="widget-box photo-widget" id="photoWidget">
-                      <input type="file" id="photoInput" accept="image/*">
-                      <div class="widget-placeholder">+</div>
-                  </div>
-
-                  <div class="app-wrapper bottom-app-1">
-                      <div class="home-app-item"><div class="placeholder-icon"></div></div>
-                      <span class="app-label">APP</span>
-                  </div>
-                  <div class="app-wrapper bottom-app-2">
-                      <div class="home-app-item"><div class="placeholder-icon"></div></div>
-                      <span class="app-label">APP</span>
-                  </div>
-              </div>
+        <!-- 📱 桌面内容区：搜索栏 + 应用图标 + 组件 -->
+        <div class="home-content">
+          <!-- 🔍 桌面搜索栏（装饰用） -->
+          <div class="search-bar">
+            <input type="text" class="search-input" placeholder="搜索" />
+            <img
+              src="icons/search.svg"
+              class="search-icon"
+              alt="搜索"
+            />
           </div>
 
-          <!-- 🔧 底部工具栏：设置、角色、记忆、生态（后续功能） -->
-          <div class="toolbar">
-              <div class="app-item">
-                  <img src="https://cn.atoilgas.com/uploads/20260607/425ec454e98a1937dd764aa0e17af384.png" class="app-icon" alt="设置">
+          <!-- 📦 应用和组件网格 -->
+          <div class="main-grid">
+            <!-- 💬 聊天应用图标：点击进入聊天界面 -->
+            <div class="app-wrapper top-app-1">
+              <div class="home-app-item">
+                <img
+                  src="icons/chat.svg"
+                  class="app-inner-icon"
+                  alt="消息"
+                />
               </div>
-              <div class="app-item">
-                  <img src="https://12387.cert.org.cn/image_tent/sysresources/1641d33ac82648debae87bb9cef5517d.png" class="app-icon" alt="角色">
+              <span class="app-label">CHAT</span>
+            </div>
+            <div class="app-wrapper top-app-2">
+              <div class="home-app-item">
+                <div class="placeholder-icon"></div>
               </div>
-              <div class="app-item">
-                  <img src="https://cn.oilgasgpts.com/resource/profile/2026/06/06/QAWXcUzm_20260606215331A599.png" class="app-icon" alt="记忆">
+              <span class="app-label">APP</span>
+            </div>
+
+            <!-- 🎵 音乐组件：唱片机样式，可以播放/暂停 -->
+            <div class="widget-box music-widget" id="musicWidget">
+              <div class="music-progress">
+                <div class="music-progress-fill" id="musicProgress"></div>
               </div>
-              <div class="app-item">
-                  <img src="https://xffkws.iflytek.com/group1/M01/01/D4/rB_aXmokIXSAGbJSAAANBV8VQzE846.png" class="app-icon" alt="生态">
+              <div class="record-player-container">
+                <div class="tonearm" id="tonearm">
+                  <div class="tonearm-joint"></div>
+                  <div class="tonearm-stick"></div>
+                  <div class="tonearm-head"></div>
+                </div>
+                <div class="turntable-platter">
+                  <div class="record-disc" id="recordDisc">
+                    <div class="record-center">
+                      <div class="record-skeleton"></div>
+                    </div>
+                  </div>
+                </div>
+                <div class="power-switch" id="powerSwitch">
+                  <img
+                    src="icons/switch.svg"
+                    class="switch-icon"
+                    alt="Switch"
+                  />
+                </div>
+                <div class="record-area" id="recordArea"></div>
               </div>
+            </div>
+
+            <!-- 📷 照片组件：点击可以上传一张照片显示在桌面 -->
+            <div class="widget-box photo-widget" id="photoWidget">
+              <input type="file" id="photoInput" accept="image/*" />
+              <div class="widget-placeholder">+</div>
+            </div>
+
+            <div class="app-wrapper bottom-app-1">
+              <div class="home-app-item">
+                <div class="placeholder-icon"></div>
+              </div>
+              <span class="app-label">APP</span>
+            </div>
+            <div class="app-wrapper bottom-app-2">
+              <div class="home-app-item">
+                <div class="placeholder-icon"></div>
+              </div>
+              <span class="app-label">APP</span>
+            </div>
           </div>
+        </div>
+
+        <!-- 🔧 底部工具栏：设置、角色、记忆、生态（后续功能） -->
+        <div class="toolbar">
+          <div class="app-item">
+            <img
+              src="icons/fish.svg"
+              class="app-icon"
+              alt="设置"
+            />
+          </div>
+          <div class="app-item">
+            <div style="width: 6px; height: 6px; background-color: rgba(255, 255, 255, 0.6); border-radius: 50%; margin: 0 auto;"></div>
+          </div>
+          <div class="app-item">
+            <div style="width: 6px; height: 6px; background-color: rgba(255, 255, 255, 0.6); border-radius: 50%; margin: 0 auto;"></div>
+          </div>
+          <div class="app-item">
+            <div style="width: 6px; height: 6px; background-color: rgba(255, 255, 255, 0.6); border-radius: 50%; margin: 0 auto;"></div>
+          </div>
+        </div>
       </div>
 
       <!-- =============================================
@@ -227,27 +369,42 @@
            包含5个标签页：消息列表、好友列表、SPACE、日程、动态
            ============================================= -->
       <div class="screen-chat-home" id="screenChatHome">
-        
         <!-- 📨 标签页1：消息列表（MESSAGES） -->
-        <div id="tab-messages" class="tab-content active" style="padding-bottom: 80px;">
+        <div
+          id="tab-messages"
+          class="tab-content active"
+          style="padding-bottom: 80px"
+        >
           <div class="chat-header">
-            <div style="display: flex; flex-direction: column; gap: 12px;">
+            <div style="display: flex; flex-direction: column; gap: 12px">
               <!-- ⬅️ 返回桌面按钮 -->
-              <div class="header-icon" id="btnBackToHome" style="cursor: pointer;">
-                <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"></polyline></svg>
+              <div
+                class="header-icon"
+                id="btnBackToHome"
+                style="cursor: pointer"
+              >
+                <img src="icons/back.svg" />
               </div>
-              <h1 style="margin: 0;">MESSAGES</h1>
+              <h1 style="margin: 0">MESSAGES</h1>
             </div>
-            <div class="header-icon"><img src="https://file.icve.com.cn/file_doc/Zy6wUfQG/566t658K.png" alt="Add"></div>
+            <div class="header-icon">
+              <img
+                src="icons/add-friend.svg"
+                alt="Add"
+              />
+            </div>
           </div>
           <div class="search-container">
             <div class="search-bar">
-              <input type="text" class="search-input" placeholder="SEARCH...">
-              <img src="https://everywhere-cloud.oss-cn-shanghai.aliyuncs.com/chat/1781912460/cWBsqnSQ.png" class="search-icon" alt="搜索">
+              <input type="text" class="search-input" placeholder="SEARCH..." />
+              <img
+                src="icons/search.svg"
+                class="search-icon"
+                alt="搜索"
+              />
             </div>
           </div>
-          <div class="chat-list">
-          </div>
+          <div class="chat-list"></div>
         </div>
 
         <!-- 👥 标签页2：好友列表（CONTACTS），有分组/好友/群聊/机器人四个子标签 -->
@@ -255,16 +412,21 @@
           <div class="chat-header">
             <h1>CONTACTS</h1>
             <div class="header-icon" id="btnAddMenu">
-              <svg width="22" height="22" viewBox="0 0 10 10" fill="none" xmlns="http://www.w3.org/2000/svg">
-                <g filter="url(#f_add)"><path d="M4.97363 5.30566C5.07554 5.32502 5.1343 5.37209 5.25098 5.46582C5.88039 5.9717 5.91987 6.70982 5.91992 6.83008C5.91985 7.01516 5.73474 7.75382 3.61035 7.75391C1.4856 7.75391 1.30086 7.01476 1.30078 6.83008C1.30082 6.70997 1.33962 5.97177 1.96875 5.46582C2.08542 5.37203 2.14412 5.32504 2.24609 5.30566C2.26052 5.30293 2.27637 5.30096 2.29102 5.2998C2.39458 5.29167 2.51793 5.34549 2.76465 5.45312C3.02364 5.56612 3.30974 5.62891 3.61035 5.62891C3.9107 5.62885 4.19637 5.56604 4.45508 5.45312C4.70175 5.34546 4.82516 5.29169 4.92871 5.2998C4.94333 5.30096 4.95923 5.30294 4.97363 5.30566ZM7.09961 2.8252C7.36188 2.82521 7.57512 3.03755 7.5752 3.2998V3.3548C7.5752 3.60859 7.5752 3.73548 7.64707 3.81964C7.65728 3.83159 7.66841 3.84272 7.68036 3.85293C7.76452 3.9248 7.89141 3.9248 8.1452 3.9248H8.2002C8.46225 3.92493 8.67451 4.1374 8.6748 4.39941C8.6748 4.66167 8.46243 4.87488 8.2002 4.875H8.1452C7.89141 4.875 7.76452 4.875 7.68036 4.94688C7.66841 4.95708 7.65728 4.96821 7.64707 4.98017C7.5752 5.06432 7.5752 5.19122 7.5752 5.445V5.5C7.57509 5.76224 7.36187 5.97459 7.09961 5.97461C6.83752 5.9744 6.62511 5.76212 6.625 5.5V5.445C6.625 5.19122 6.625 5.06432 6.55312 4.98017C6.54291 4.96821 6.53179 4.95708 6.51983 4.94688C6.43568 4.875 6.30878 4.875 6.055 4.875H6C5.73766 4.875 5.52539 4.66175 5.52539 4.39941C5.52568 4.13733 5.73784 3.9248 6 3.9248H6.055C6.30878 3.9248 6.43568 3.9248 6.51983 3.85293C6.53179 3.84272 6.54291 3.83159 6.55312 3.81964C6.625 3.73548 6.625 3.60859 6.625 3.3548V3.2998C6.62508 3.03767 6.8375 2.82541 7.09961 2.8252ZM3.61035 2.2002C4.3246 2.20042 4.90332 2.77981 4.90332 3.49414C4.90307 4.20826 4.32444 4.78689 3.61035 4.78711C2.89607 4.78711 2.31666 4.20839 2.31641 3.49414C2.31641 2.77967 2.89592 2.2002 3.61035 2.2002Z" fill="white"/></g>
-                <defs><filter id="f_add" x="0" y="0" width="10" height="10" filterUnits="userSpaceOnUse" color-interpolation-filters="sRGB"><feFlood flood-opacity="0" result="BackgroundImageFix"/><feBlend mode="normal" in="SourceGraphic" in2="BackgroundImageFix" result="shape"/><feColorMatrix in="SourceAlpha" type="matrix" values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 127 0" result="hardAlpha"/><feOffset/><feGaussianBlur stdDeviation="1"/><feComposite in2="hardAlpha" operator="arithmetic" k2="-1" k3="1"/><feColorMatrix type="matrix" values="0 0 0 0 0.942 0 0 0 0 0.94 0 0 0 0 1 0 0 0 0.1 0"/><feBlend mode="hard-light" in2="shape" result="effect1_innerShadow"/></filter></defs>
-              </svg>
+              <img src="icons/add-friend.svg" />
             </div>
           </div>
           <div class="search-container">
             <div class="search-bar">
-              <img src="https://everywhere-cloud.oss-cn-shanghai.aliyuncs.com/chat/1781912460/cWBsqnSQ.png" class="search-icon" alt="搜索">
-              <input type="text" class="search-input" placeholder="SEARCH CONTACTS...">
+              <img
+                src="icons/search.svg"
+                class="search-icon"
+                alt="搜索"
+              />
+              <input
+                type="text"
+                class="search-input"
+                placeholder="SEARCH CONTACTS..."
+              />
             </div>
           </div>
           <div class="mid-toolbar">
@@ -273,85 +435,200 @@
               <div class="subnav-item" data-tab="1">好友</div>
               <div class="subnav-item" data-tab="2">群聊</div>
               <div class="subnav-item" data-tab="3">机器人</div>
-              <div class="subnav-indicator-wrap" id="subnavIndicator"><div class="subnav-indicator"></div></div>
+              <div class="subnav-indicator-wrap" id="subnavIndicator">
+                <div class="subnav-indicator"></div>
+              </div>
             </div>
             <div class="panels-wrapper" id="panelsWrapper">
               <div class="sub-tab-panel active" id="panel-0">
                 <div class="contact-group">
-                  <div class="contact-group-header" data-action="toggle-group"><div class="contact-group-arrow">▶</div><div class="contact-group-name">特别关心</div><div class="contact-group-count">0/0</div></div>
+                  <div class="contact-group-header" data-action="toggle-group">
+                    <div class="contact-group-arrow">▶</div>
+                    <div class="contact-group-name">特别关心</div>
+                    <div class="contact-group-count">0/0</div>
+                  </div>
                 </div>
                 <div class="contact-group expanded" id="group-friends">
-                  <div class="contact-group-header" data-action="toggle-group"><div class="contact-group-arrow">▶</div><div class="contact-group-name">我的好友</div><div class="contact-group-count" id="group-count">0/0</div></div>
-                  <div class="contact-group-content" id="friend-list-group"></div>
+                  <div class="contact-group-header" data-action="toggle-group">
+                    <div class="contact-group-arrow">▶</div>
+                    <div class="contact-group-name">我的好友</div>
+                    <div class="contact-group-count" id="group-count">0/0</div>
+                  </div>
+                  <div
+                    class="contact-group-content"
+                    id="friend-list-group"
+                  ></div>
                 </div>
               </div>
-              <div class="sub-tab-panel" id="panel-1"><div id="friend-list-alpha"></div></div>
-              <div class="sub-tab-panel" id="panel-2"><div class="empty-state"><div>暂无群聊</div></div></div>
+              <div class="sub-tab-panel" id="panel-1">
+                <div id="friend-list-alpha"></div>
+              </div>
+              <div class="sub-tab-panel" id="panel-2">
+                <div class="empty-state"><div>暂无群聊</div></div>
+              </div>
               <div class="sub-tab-panel" id="panel-3">
                 <div class="contact-group expanded">
-                  <div class="contact-group-header" data-action="toggle-group"><div class="contact-group-arrow">▶</div><div class="contact-group-name">我添加的机器人</div><div class="contact-group-count" id="bot-count">1</div></div>
+                  <div class="contact-group-header" data-action="toggle-group">
+                    <div class="contact-group-arrow">▶</div>
+                    <div class="contact-group-name">我添加的机器人</div>
+                    <div class="contact-group-count" id="bot-count">1</div>
+                  </div>
                   <div class="contact-group-content" id="bot-list"></div>
                 </div>
               </div>
             </div>
           </div>
         </div>
-        
+
         <!-- 🚧 标签页3-5：施工中，后续功能 -->
-        <div id="tab-space" class="tab-content"><div class="tab-header-generic"><div class="tab-title">SPACE</div><div class="tab-subtitle">正在施工中</div></div></div>
-        <div id="tab-schedule" class="tab-content"><div class="tab-header-generic"><div class="tab-title">SCHEDULE</div><div class="tab-subtitle">正在施工中</div></div></div>
-        <div id="tab-moments" class="tab-content"><div class="tab-header-generic"><div class="tab-title">MOMENTS</div><div class="tab-subtitle">正在施工中</div></div></div>
+        <div id="tab-space" class="tab-content">
+          <div class="tab-header-generic">
+            <div class="tab-title">SPACE</div>
+            <div class="tab-subtitle">正在施工中</div>
+          </div>
+        </div>
+        <div id="tab-schedule" class="tab-content">
+          <div class="tab-header-generic">
+            <div class="tab-title">SCHEDULE</div>
+            <div class="tab-subtitle">正在施工中</div>
+          </div>
+        </div>
+        <div id="tab-moments" class="tab-content">
+          <div class="tab-header-generic">
+            <div class="tab-title">MOMENTS</div>
+            <div class="tab-subtitle">正在施工中</div>
+          </div>
+        </div>
 
         <!-- 🧭 聊天应用底部导航栏：切换五个标签页 -->
 
         <div class="nav-bar" id="navBar">
-          <div class="nav-item active" data-action="switch-tab"><img src="https://cn.oilgasgpts.com/resource/profile/2026/06/07/FZkTRc2E_20260607125013A603.png" class="nav-icon" alt="消息"></div>
-          <div class="nav-item" data-action="switch-tab"><img src="https://ocs.celine.cn/livechat/uploadfile/celine/20260607/2077533DC922F1217505F8A81B061DF0.png" class="nav-icon" alt="联系人"></div>
-          <div class="nav-item" data-action="switch-tab"><img src="https://chatimg.pp373.com/Upload/2026-06-06/1b8f8f40f5034c89ac5fea026aa1dd9e.png" class="nav-icon" alt="空间"></div>
-          <div class="nav-item" data-action="switch-tab"><img src="https://xiuxiu-pro-new.meitudata.com/bizshoot/6a24f8c5d6f77w387zsgsg6573.png" class="nav-icon" alt="日程"></div>
-          <div class="nav-item" data-action="switch-tab"><img src="https://static.eeo.cn/upload/images/20260607/82c9dfbcb5657db16399.png" class="nav-icon" alt="动态"></div>
-          <div class="indicator" id="indicator"><div class="light-beam-wrapper"><div class="light-beam"></div></div></div>
+          <div class="nav-item active" data-action="switch-tab">
+            <img
+              src="icons/chat.svg"
+              class="nav-icon"
+              alt="消息"
+            />
+          </div>
+          <div class="nav-item" data-action="switch-tab">
+            <img
+              src="icons/contacts.svg"
+              class="nav-icon"
+              alt="联系人"
+            />
+          </div>
+          <div class="nav-item" data-action="switch-tab">
+            <img
+              src="icons/space.svg"
+              class="nav-icon"
+              alt="空间"
+            />
+          </div>
+          <div class="nav-item" data-action="switch-tab">
+            <img
+              src="icons/schedule.svg"
+              class="nav-icon"
+              alt="日程"
+            />
+          </div>
+          <div class="nav-item" data-action="switch-tab">
+            <img
+              src="icons/moments.svg"
+              class="nav-icon"
+              alt="动态"
+            />
+          </div>
+          <div class="indicator" id="indicator">
+            <div class="light-beam-wrapper"><div class="light-beam"></div></div>
+          </div>
         </div>
       </div>
 
       <!-- 👤 角色个人主页：点好友列表里的角色会滑出来，显示头像、备注、签名等 -->
       <div class="profile-screen" id="profileScreen">
         <div class="profile-bg" id="profileBg">
-          <img class="profile-bg-img" id="profileBgImg" src="" alt="">
-          <div class="profile-back-btn" id="profileBackBtn"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"/></svg></div>
+          <img class="profile-bg-img" id="profileBgImg" src="" alt="" />
+          <div class="profile-back-btn" id="profileBackBtn">
+            <img src="icons/back.svg" />
+          </div>
         </div>
         <div class="profile-info-row">
           <div class="profile-avatar-wrap" id="profileAvatarWrap">
             <div class="profile-avatar" id="profileAvatar">
               <span id="profileAvatarInitial">?</span>
-              <img class="profile-avatar-img" id="profileAvatarImg" src="" alt="">
+              <img
+                class="profile-avatar-img"
+                id="profileAvatarImg"
+                src=""
+                alt=""
+              />
             </div>
-            <div class="profile-avatar-edit"><svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="rgba(255,255,255,0.7)" stroke-width="2.5"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"/></svg></div>
+            <div class="profile-avatar-edit">
+              <img src="icons/edit-pen.svg" />
+            </div>
           </div>
           <div class="profile-text">
-            <div class="profile-remark" id="profileRemark" data-edit="remark">备注</div>
-            <div class="profile-nickname" id="profileNickname" data-edit="nickname">昵称</div>
-            <div class="profile-id" id="profileIdText" data-edit="uid">ID: 000000</div>
+            <div class="profile-remark" id="profileRemark" data-edit="remark">
+              备注
+            </div>
+            <div
+              class="profile-nickname"
+              id="profileNickname"
+              data-edit="nickname"
+            >
+              昵称
+            </div>
+            <div class="profile-id" id="profileIdText" data-edit="uid">
+              ID: 000000
+            </div>
           </div>
         </div>
-        <div class="profile-signature" id="profileSignature" data-edit="signature"></div>
+        <div
+          class="profile-signature"
+          id="profileSignature"
+          data-edit="signature"
+        ></div>
         <div class="profile-photos">
-          <div class="profile-photos-header"><div class="profile-photos-title">精选照片</div></div>
+          <div class="profile-photos-header">
+            <div class="profile-photos-title">精选照片</div>
+          </div>
           <div class="profile-photos-grid" id="profilePhotosGrid">
-            <div class="photo-slot" data-slot="0"><div class="photo-slot-del" data-del="0">×</div><img src="" alt=""><div class="photo-slot-plus">＋</div></div>
-            <div class="photo-slot" data-slot="1"><div class="photo-slot-del" data-del="1">×</div><img src="" alt=""><div class="photo-slot-plus">＋</div></div>
-            <div class="photo-slot" data-slot="2"><div class="photo-slot-del" data-del="2">×</div><img src="" alt=""><div class="photo-slot-plus">＋</div></div>
-            <div class="photo-slot" data-slot="3"><div class="photo-slot-del" data-del="3">×</div><img src="" alt=""><div class="photo-slot-plus">＋</div></div>
+            <div class="photo-slot" data-slot="0">
+              <div class="photo-slot-del" data-del="0">×</div>
+              <img src="" alt="" />
+              <div class="photo-slot-plus">＋</div>
+            </div>
+            <div class="photo-slot" data-slot="1">
+              <div class="photo-slot-del" data-del="1">×</div>
+              <img src="" alt="" />
+              <div class="photo-slot-plus">＋</div>
+            </div>
+            <div class="photo-slot" data-slot="2">
+              <div class="photo-slot-del" data-del="2">×</div>
+              <img src="" alt="" />
+              <div class="photo-slot-plus">＋</div>
+            </div>
+            <div class="photo-slot" data-slot="3">
+              <div class="photo-slot-del" data-del="3">×</div>
+              <img src="" alt="" />
+              <div class="photo-slot-plus">＋</div>
+            </div>
           </div>
         </div>
         <div class="profile-actions">
-          <div class="profile-action-btn btn-settings" id="btnProfileSettings">角色设定</div>
-          <div class="profile-action-btn btn-chat" id="btnProfileChat">发起聊天</div>
+          <div class="profile-action-btn btn-settings" id="btnProfileSettings">
+            角色设定
+          </div>
+          <div class="profile-action-btn btn-chat" id="btnProfileChat">
+            发起聊天
+          </div>
         </div>
       </div>
 
       <!-- 😺 表情选择器：长按消息后弹出的表情面板 -->
-      <div id="inlineReactionPicker" class="inline-reaction-picker"><div class="reaction-grid-inner" id="reactionGridInner"></div></div>
+      <div id="inlineReactionPicker" class="inline-reaction-picker">
+        <div class="reaction-grid-inner" id="reactionGridInner"></div>
+      </div>
       <!-- 📋 右键菜单：长按消息后弹出的操作菜单（复制、删除、编辑等） -->
       <div id="msgContextMenu" class="msg-context-menu"></div>
 
@@ -359,8 +636,12 @@
 
       <div class="add-menu-overlay" id="addMenuOverlay">
         <div class="add-menu-bubble" id="addMenuBubble">
-          <div class="menu-btn" id="btnGoAddFriend"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><line x1="19" y1="8" x2="19" y2="14"/><line x1="22" y1="11" x2="16" y2="11"/></svg>添加好友</div>
-          <div class="menu-btn" id="btnGoCreateGroup"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>创建群聊</div>
+          <div class="menu-btn" id="btnGoAddFriend">
+            <img src="icons/add-friend.svg" />添加好友
+          </div>
+          <div class="menu-btn" id="btnGoCreateGroup">
+            <img src="icons/create-group.svg" />创建群聊
+          </div>
         </div>
       </div>
 
@@ -371,46 +652,152 @@
             <div class="strip-toggle" id="stripToggle"></div>
             <div class="ticket-strip-area" id="ticketStrip">
               <div class="mini-ticket-container active" data-type="char">
-                <div class="ticket-part char-part upper mini-upper"><div class="mini-box" data-action="pick-image"></div></div>
-                <div class="ticket-part char-part lower mini-lower"><div class="mini-abbr">Char</div></div>
+                <div class="ticket-part char-part upper mini-upper">
+                  <div class="mini-box" data-action="pick-image"></div>
+                </div>
+                <div class="ticket-part char-part lower mini-lower">
+                  <div class="mini-abbr">Char</div>
+                </div>
               </div>
               <div class="mini-ticket-container" data-type="user">
-                <div class="ticket-part char-part upper mini-upper"><div class="mini-box" data-action="pick-image"></div></div>
-                <div class="ticket-part char-part lower mini-lower"><div class="mini-abbr">User</div></div>
+                <div class="ticket-part char-part upper mini-upper">
+                  <div class="mini-box" data-action="pick-image"></div>
+                </div>
+                <div class="ticket-part char-part lower mini-lower">
+                  <div class="mini-abbr">User</div>
+                </div>
               </div>
             </div>
           </div>
-          
+
           <div class="ticket-builder-area">
             <div class="ticket-flipper" id="mainFlipper">
               <div class="ticket-face front" id="faceFront">
-                <div class="ticket-part char-part upper main-upper"><img class="ticket-bg-img" src=""><div class="part-overlay front-overlay"></div></div>
-                <div class="ticket-part char-part lower main-lower"><img class="ticket-bg-img" src=""><div class="part-overlay front-overlay"></div></div>
-                <div class="front-text" id="frontName" contenteditable="true" spellcheck="false">Character</div>
+                <div class="ticket-part char-part upper main-upper">
+                  <img class="ticket-bg-img" src="" />
+                  <div class="part-overlay front-overlay"></div>
+                </div>
+                <div class="ticket-part char-part lower main-lower">
+                  <img class="ticket-bg-img" src="" />
+                  <div class="part-overlay front-overlay"></div>
+                </div>
+                <div
+                  class="front-text"
+                  id="frontName"
+                  contenteditable="true"
+                  spellcheck="false"
+                >
+                  Character
+                </div>
               </div>
               <div class="ticket-face back" id="faceBack">
-                <div class="ticket-part char-part upper main-upper"><img class="ticket-bg-img" src=""><div class="part-overlay back-overlay"></div></div>
-                <div class="ticket-part char-part lower main-lower"><img class="ticket-bg-img" src=""><div class="part-overlay back-overlay"></div></div>
-                
+                <div class="ticket-part char-part upper main-upper">
+                  <img class="ticket-bg-img" src="" />
+                  <div class="part-overlay back-overlay"></div>
+                </div>
+                <div class="ticket-part char-part lower main-lower">
+                  <img class="ticket-bg-img" src="" />
+                  <div class="part-overlay back-overlay"></div>
+                </div>
+
                 <div class="back-content-layer">
-                  <div class="back-header"><span id="ticketOriginLabel">CHARACTER DESIGN</span><span id="ticketNo">NO. 1</span></div>
+                  <div class="back-header">
+                    <span id="ticketOriginLabel">CHARACTER DESIGN</span
+                    ><span id="ticketNo">NO. 1</span>
+                  </div>
                   <div class="back-grid" id="backGrid">
-                    <div class="bg-row row-title"><span class="box-label">Signature</span><input type="text" class="back-input cursive-input" data-field="signature"></div>
-                    <div class="bg-row row-info">
-                      <div class="info-line"><span class="box-label">Name :</span><input type="text" class="back-input" data-field="name"></div>
-                      <div class="info-line"><span class="box-label">Gender :</span><input type="text" class="back-input" data-field="gender"></div>
-                      <div class="info-line"><span class="box-label">Occupation :</span><input type="text" class="back-input" data-field="occupation"></div>
+                    <div class="bg-row row-title">
+                      <span class="box-label">Signature</span
+                      ><input
+                        type="text"
+                        class="back-input cursive-input"
+                        data-field="signature"
+                      />
                     </div>
-                    <div class="bg-row row-rating"><span class="box-label">Tone</span><input type="text" class="back-input tone-input" data-field="tone"></div>
-                    <div class="bg-row row-review"><span class="box-label">Settings</span><textarea class="back-textarea" data-field="settings"></textarea></div>
+                    <div class="bg-row row-info">
+                      <div class="info-line">
+                        <span class="box-label">Name :</span
+                        ><input
+                          type="text"
+                          class="back-input"
+                          data-field="name"
+                        />
+                      </div>
+                      <div class="info-line">
+                        <span class="box-label">Gender :</span
+                        ><input
+                          type="text"
+                          class="back-input"
+                          data-field="gender"
+                        />
+                      </div>
+                      <div class="info-line">
+                        <span class="box-label">Occupation :</span
+                        ><input
+                          type="text"
+                          class="back-input"
+                          data-field="occupation"
+                        />
+                      </div>
+                    </div>
+                    <div class="bg-row row-rating">
+                      <span class="box-label">Tone</span
+                      ><input
+                        type="text"
+                        class="back-input tone-input"
+                        data-field="tone"
+                      />
+                    </div>
+                    <div class="bg-row row-review">
+                      <span class="box-label">Settings</span
+                      ><textarea
+                        class="back-textarea"
+                        data-field="settings"
+                      ></textarea>
+                    </div>
                     <div class="bg-row row-datetime">
-                      <div class="info-line"><span class="box-label">Date :</span><input type="text" class="back-input" data-field="date"></div>
-                      <div class="info-line"><span class="box-label">Age :</span><input type="text" class="back-input" data-field="age"></div>
+                      <div class="info-line">
+                        <span class="box-label">Date :</span
+                        ><input
+                          type="text"
+                          class="back-input"
+                          data-field="date"
+                        />
+                      </div>
+                      <div class="info-line">
+                        <span class="box-label">Age :</span
+                        ><input
+                          type="text"
+                          class="back-input"
+                          data-field="age"
+                        />
+                      </div>
                     </div>
                     <div class="row-seat">
-                      <div class="seat-col"><span class="box-label">Then To Me</span><input type="text" class="back-input seat-val" data-field="rel_to_me"></div>
-                      <div class="seat-col border-left"><span class="box-label">Me to Them</span><input type="text" class="back-input seat-val" data-field="rel_to_them"></div>
-                      <div class="seat-col border-left"><span class="box-label">Relationship</span><input type="text" class="back-input seat-val" data-field="relationship"></div>
+                      <div class="seat-col">
+                        <span class="box-label">Then To Me</span
+                        ><input
+                          type="text"
+                          class="back-input seat-val"
+                          data-field="rel_to_me"
+                        />
+                      </div>
+                      <div class="seat-col border-left">
+                        <span class="box-label">Me to Them</span
+                        ><input
+                          type="text"
+                          class="back-input seat-val"
+                          data-field="rel_to_them"
+                        />
+                      </div>
+                      <div class="seat-col border-left">
+                        <span class="box-label">Relationship</span
+                        ><input
+                          type="text"
+                          class="back-input seat-val"
+                          data-field="relationship"
+                        />
+                      </div>
                     </div>
                   </div>
                 </div>
@@ -419,12 +806,14 @@
           </div>
         </div>
       </div>
+    </div>
 
-  </div>
-
-  <!-- 📜 JS文件加载区 -->
-  <script src="chat-app.js"></script>     <!-- 聊天应用的所有逻辑 -->
-  <script src="main.js"></script>         <!-- 桌面功能：锁屏、时钟、音乐、照片、跳转 -->
-  <script src="dynamic-island.js"></script> <!-- 灵动岛的交互逻辑 -->
-</body>
+    <!-- 📜 JS文件加载区 -->
+    <script src="chat-app.js"></script>
+    <!-- 聊天应用的所有逻辑 -->
+    <script src="main.js"></script>
+    <!-- 桌面功能：锁屏、时钟、音乐、照片、跳转 -->
+    <script src="dynamic-island.js"></script>
+    <!-- 灵动岛的交互逻辑 -->
+  </body>
 </html>
