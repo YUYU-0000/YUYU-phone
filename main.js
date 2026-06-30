@@ -123,6 +123,15 @@ const photoWidget = $('photoWidget');
 const photoInput = $('photoInput');
 
 if(photoWidget && photoInput) {
+    // --- 新增：页面加载时，先从 localStorage 读取之前存的图片 ---
+    const savedPhoto = localStorage.getItem('myWidgetPhotoBase64');
+    if (savedPhoto) {
+        // 如果有存过的图片，直接展示出来
+        photoWidget.style.backgroundImage = `url(${savedPhoto})`;
+        const placeholder = photoWidget.querySelector('.widget-placeholder');
+        if(placeholder) placeholder.style.display = 'none'; 
+    }
+
     // 当你点击好看的相框时，电脑就偷偷帮你去点那个隐藏起来的丑丑的上传按钮
     photoWidget.addEventListener('click', () => photoInput.click());
 
@@ -137,8 +146,14 @@ if(photoWidget && photoInput) {
             
             // 告诉工具人：当你读完这张图片后，照着做这几件事
             reader.onload = (readerEvent) => {
+                const base64Data = readerEvent.target.result;
+                
                 // 把读出来的图片，当成背景图贴到我们的相框上
-                photoWidget.style.backgroundImage = `url(${readerEvent.target.result})`;
+                photoWidget.style.backgroundImage = `url(${base64Data})`;
+                
+                // --- 新增：把这张图片的 base64 数据存到 localStorage 里 ---
+                localStorage.setItem('myWidgetPhotoBase64', base64Data);
+
                 // 找找相框里有没有占位置的文字（比如原本写着“添加图片”的字）
                 const placeholder = photoWidget.querySelector('.widget-placeholder');
                 // 如果有，就把它藏起来（'none' 就是让它消失的意思）
