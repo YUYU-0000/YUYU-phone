@@ -714,7 +714,7 @@ const AppUI = {
     const grid = this.DOM.reactionGrid(); const { customEmojis } = AppState.getState(); grid.innerHTML = '';
     const buildCell = (em, idx) => `<div class="reaction-cell draggable-emoji" data-index="${idx}" data-emoji="${em}" data-action="pick-reaction"><div class="reaction-icon-box pointer-events-none">${em}</div></div>`;
     for(let i=0; i<7 && i<customEmojis.length; i++) grid.insertAdjacentHTML('beforeend', buildCell(customEmojis[i], i));
-    grid.insertAdjacentHTML('beforeend', `<div class="reaction-cell" data-action="toggle-expand-reactions"><div class="reaction-icon-box expand-btn-box pointer-events-none"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" style="transition: transform 0.3s;"><polyline points="18 15 12 9 6 15"></polyline></svg></div></div>`);
+    grid.insertAdjacentHTML('beforeend', `<div class="reaction-cell" data-action="toggle-expand-reactions"><div class="reaction-icon-box expand-btn-box pointer-events-none"><img src="icons/chevron.svg" style="width:14px;height:14px;transition:transform 0.3s;"></div></div>`);
     for(let i=7; i<customEmojis.length; i++) grid.insertAdjacentHTML('beforeend', buildCell(customEmojis[i], i));
     grid.insertAdjacentHTML('beforeend', `<div class="reaction-cell" id="addEmojiCell" data-action="show-inline-input"><div class="reaction-icon-box pointer-events-none" style="background: rgba(255,255,255,0.15); font-weight:bold; color:rgba(255,255,255,0.9);">+</div></div>`);
   },
