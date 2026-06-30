@@ -80,6 +80,14 @@ body {
     letter-spacing: 2px;
 }
 
+.lock-time {
+    font-family: "AR PL UKai CN", serif;
+}
+
+.lock-date {
+    font-family: "AR PL UKai CN", serif;
+}
+
 /* 解锁按钮：在屏幕下方，中间那个圆圆的按钮。给它加了酷炫的发光阴影，还绑了一个叫“breathe（呼吸）”的动画。 */
 #unlock-btn {
     position: absolute;
