@@ -181,3 +181,39 @@ if (btnBackToHome) {
         screenHome.classList.remove('hide-to-bg');
     });
 }
+
+// ==========================================
+// 自动缩放手机外壳，适应屏幕大小
+// ==========================================
+function scalePhoneFrame() {
+    const phoneFrame = document.querySelector('.phone-frame');
+    if (!phoneFrame) return;
+
+    // 获取当前屏幕的可视区域宽高
+    const windowWidth = window.innerWidth;
+    const windowHeight = window.innerHeight;
+
+    // 留出一点边距，避免紧贴屏幕边缘（这里设定上下左右各留 20px，总共减去 40px）
+    const availableWidth = windowWidth - 40;
+    const availableHeight = windowHeight - 40;
+
+    // 计算宽度和高度各自需要的缩放比例
+    // 手机壳基础尺寸：宽 310，高 670
+    const scaleX = availableWidth / 310;
+    const scaleY = availableHeight / 670;
+
+    // 取较小的值，确保手机壳的长和宽都能完全塞进屏幕里
+    let finalScale = Math.min(scaleX, scaleY);
+
+    // 如果不想在超大屏幕上放得太大，可以解开下面这行的注释，限制最大缩放比例（比如最大1.5倍）
+    // finalScale = Math.min(finalScale, 1.5);
+
+    // 应用缩放，并保证是以中心点为基准进行缩放
+    phoneFrame.style.transform = `scale(${finalScale})`;
+    phoneFrame.style.transformOrigin = 'center center';
+}
+
+// 一打开页面，先执行一次缩放计算
+scalePhoneFrame();
+// 告诉电脑：只要浏览器的窗口大小发生变化（比如手机横屏了，或者拖拽了窗口），就重新算一遍
+window.addEventListener('resize', scalePhoneFrame);
