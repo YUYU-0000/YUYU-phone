@@ -181,29 +181,3 @@ if (btnBackToHome) {
         screenHome.classList.remove('hide-to-bg');
     });
 }
-
-// ==========================================
-// 鱼鱼，这里是新加的自动缩放功能
-// ==========================================
-function autoScalePhone() {
-    const phoneFrame = document.querySelector('.phone-frame');
-    if (!phoneFrame) return; // 如果没找到手机框，就不执行，保护你不报错
-
-    // 计算屏幕宽度与 310 的比例
-    const scaleWidth = window.innerWidth / 310;
-    // 计算屏幕高度与 670 的比例
-    const scaleHeight = screen.height / 670;
-    
-    // 取两个比例中较小的那一个，确保手机能完整显示
-    const scaleFactor = Math.min(scaleWidth, scaleHeight);
-    
-    // 直接用 zoom 缩放，不碰 transform
-    phoneFrame.style.zoom = scaleFactor;
-}
-
-// 只在页面加载完毕，或者你拉伸改变窗口大小时才去计算
-window.addEventListener('load', autoScalePhone);
-window.addEventListener('resize', autoScalePhone);
-
-// 刚运行到这里的时候，我们也先乖乖执行一次，确保一开始大小就是对的
-autoScalePhone();
