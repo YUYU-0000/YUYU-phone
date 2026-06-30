@@ -164,7 +164,7 @@ body {
 
 /* 桌面主体内容区：控制APP图标和组件们放在下半屏的一个大框。 */
 .home-content {
-    position: relative; padding: 0 15px; margin-top: auto; margin-bottom: 110px;
+    position: relative; padding: 0 28px; margin-top: auto; margin-bottom: 110px;
     display: flex; flex-direction: column; gap: 16px; 
 }
 
