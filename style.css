@@ -25,8 +25,7 @@
 /* 网页身体：控制最外层的整个大背景，把所有的东西都放在屏幕正中间，背景设为深灰色，并且不让你用鼠标随便选中文本。 */
 body {
     margin: 0;
-    height: 100dvh;
-    overflow: hidden;
+    height: 100vh;
     display: flex;
     justify-content: center;
     align-items: center;
@@ -35,10 +34,7 @@ body {
     user-select: none;
     font-family: "KokoroMinchoutai", sans-serif;
     font-weight: normal;
-}
-
-@supports not (height: 100dvh) { 
-    body { height: 100vh; } 
+    overflow: hidden;
 }
 
 /* 手机外壳：这就是你看到的那个手机框框！规定了手机的宽度、高度、圆角，还加了点阴影让它看起来更立体，顺便贴了一张背景壁纸。 */
@@ -1121,5 +1117,4 @@ body {
     padding: 0 12px;
     background-color: rgba(255, 255, 255, 0.08);
     border: 1px solid rgba(255, 255, 255, 0.05);
-}
 }

@@ -183,37 +183,27 @@ if (btnBackToHome) {
 }
 
 // ==========================================
-// 自动缩放逻辑：让手机画面刚好适应屏幕
+// 鱼鱼，这里是新加的自动缩放功能
 // ==========================================
-function updateScale() {
-    // 优先使用 visualViewport 获取真实可视大小，如果不支持就用标准的内屏大小
-    const viewport = window.visualViewport || window;
-    const currentWidth = viewport.width || window.innerWidth;
-    const currentHeight = viewport.height || window.innerHeight;
-
-    // 宽高各减去 10px 作为安全边距
-    const availableWidth = currentWidth - 10;
-    const availableHeight = currentHeight - 10;
-
-    // 分别除以设计的宽（310）和高（670），取较小值作为最终的缩放比例
-    const scaleFactor = Math.min(availableWidth / 310, availableHeight / 670);
-
-    // 找到手机外壳，把算好的比例应用上去
+function autoScalePhone() {
     const phoneFrame = document.querySelector('.phone-frame');
-    if (phoneFrame) {
-        phoneFrame.style.transform = `scale(${scaleFactor})`;
-        // 保证缩放是从中心点进行的
-        phoneFrame.style.transformOrigin = 'center center'; 
-    }
+    if (!phoneFrame) return; // 如果没找到手机框，就不执行，保护你不报错
+
+    // 计算屏幕宽度与 310 的比例
+    const scaleWidth = window.innerWidth / 310;
+    // 计算屏幕高度与 670 的比例
+    const scaleHeight = screen.height / 670;
+    
+    // 取两个比例中较小的那一个，确保手机能完整显示
+    const scaleFactor = Math.min(scaleWidth, scaleHeight);
+    
+    // 直接用 zoom 缩放，不碰 transform
+    phoneFrame.style.zoom = scaleFactor;
 }
 
-// 刚打开页面的时候，先算一次比例并缩放
-updateScale();
+// 只在页面加载完毕，或者你拉伸改变窗口大小时才去计算
+window.addEventListener('load', autoScalePhone);
+window.addEventListener('resize', autoScalePhone);
 
-// 监听标准窗口大小变化事件
-window.addEventListener('resize', updateScale);
-
-// 监听 visualViewport 尺寸变化（比如手机键盘弹起时）
-if (window.visualViewport) {
-    window.visualViewport.addEventListener('resize', updateScale);
-}
+// 刚运行到这里的时候，我们也先乖乖执行一次，确保一开始大小就是对的
+autoScalePhone();
