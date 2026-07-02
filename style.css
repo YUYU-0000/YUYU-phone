@@ -31,7 +31,7 @@ body {
     background-color: #333333; 
     -webkit-user-select: none;
     user-select: none;
-    font-family: "STDongGuanTi", sans-serif;
+    font-family: "Chiron Sung HK VF", sans-serif;
     font-weight: normal;
     overflow: hidden;
 }
@@ -1044,7 +1044,7 @@ body {
 .front-text { position: absolute; top: 50%; left: 50%; transform: translate(-50%, -60%); z-index: 100; font-family: "ZSFT-ej", "PING FANG GONG ZI TI", sans-serif; font-size: 26px; font-weight: normal; text-align: center; white-space: nowrap; outline: none; background: transparent; border: none; padding: 5px 10px; user-select: auto; -webkit-user-select: auto; cursor: text; color: var(--back-ink); }
 
 /* 票据背面像表格一样的内容大盒子：里面全是你能写字的地方。 */
-.back-content-layer { position: absolute; inset: 0; z-index: 10; padding: 15px 12px; pointer-events: none; font-family: "ZSFT-br", "ZQKNBCGPST", sans-serif; color: var(--back-ink); display: flex; flex-direction: column; }
+.back-content-layer { position: absolute; inset: 0; z-index: 10; padding: 15px 12px; pointer-events: none; font-family: "ZSFT-br", "YuFanDanQingSong", sans-serif; color: var(--back-ink); display: flex; flex-direction: column; }
 /* 表格最上面的小字标题。 */
 .back-header { display: flex; justify-content: space-between; font-size: 9px; font-weight: 600; margin-bottom: 5px; padding: 0 2px; }
 /* 画这个表格框线。 */
@@ -1068,13 +1068,13 @@ body {
 .info-line .box-label { margin-right: 4px; margin-bottom: 0; flex-shrink: 0; }
 
 /* 票据背面里让你填空打字的地方（单行）：全部去掉了难看的默认边框。 */
-.back-input { background: transparent; border: none; outline: none; color: var(--back-ink); font-family: "ZSFT-br", "ZQKNBCGPST", sans-serif; font-size: 9.5px; font-weight: 500; width: 100%; padding: 0; user-select: auto; -webkit-user-select: auto; }
+.back-input { background: transparent; border: none; outline: none; color: var(--back-ink); font-family: "ZSFT-br", "YuFanDanQingSong", sans-serif; font-size: 9.5px; font-weight: 500; width: 100%; padding: 0; user-select: auto; -webkit-user-select: auto; }
 /* 比较大、居中的那种手写风输入框。 */
 .cursive-input { font-family: "ZSFT-ej", "PING FANG GONG ZI TI", sans-serif; font-size: 26px; text-align: center; margin-top: 4px; font-weight: normal; }
 /* 靠左加粗的短词输入框。 */
 .tone-input { direction: ltr !important; text-align: left !important; flex-grow: 1; margin-left: 8px; font-weight: 600; }
 /* 让你写一大段话的地方（多行文本框）：不会有边框，也不许你用鼠标把它拉扯大。 */
-.back-textarea { background: transparent; border: none; outline: none; color: var(--back-ink); font-family: "ZSFT-br", "ZQKNBCGPST", sans-serif; font-size: 9.5px; font-weight: 500; width: 100%; flex-grow: 1; resize: none; margin-top: 0px; line-height: 1.2; user-select: auto; -webkit-user-select: auto; }
+.back-textarea { background: transparent; border: none; outline: none; color: var(--back-ink); font-family: "ZSFT-br", "YuFanDanQingSong", sans-serif; font-size: 9.5px; font-weight: 500; width: 100%; flex-grow: 1; resize: none; margin-top: 0px; line-height: 1.2; user-select: auto; -webkit-user-select: auto; }
 /* 座位号那种粗一点大一点的字。 */
 .seat-val { font-size: 11px; font-weight: 700; text-align: center; margin-top: 2px; }
 /* 把票据背面可能出现的烦人滚动条全部藏起来。 */
