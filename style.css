@@ -1,3 +1,4 @@
+@import url("https://fontsapi.zeoseven.com/494/main/result.css");
 /* 聊天软件的颜色大仓库（已移至文件最开头）：在这里统一定义了一些常用的颜色和阴影，方便下面直接拿来用。 */
 :root {
   --bg-overlay: rgba(0, 0, 0, 0.95);
@@ -808,7 +809,7 @@ body {
 /* 如果这个气泡正在被编辑（二次修改），加个发光圈。 */
 .msg-bubble[contenteditable="true"] { box-shadow: 0 0 0 1.5px rgba(255,255,255,0.8); background: rgba(255,255,255,0.15); cursor: text; user-select: auto !important; -webkit-user-select: auto !important; }
 .sender .msg-bubble.editing { background: rgba(255, 249, 240, 0.95); }
-/* 对方发的气泡颜色：灰黑色底，白字。左上角不是圆角，制造个小尾巴错觉。 */
+/* 对方发的气泡颜色：灰黑色底，白字。左上角不是圆角，制造个小尾觉。 */
 .receiver .msg-bubble { background: rgba(255, 255, 255, 0.1); color: rgba(255, 255, 255, 0.9); border: 1px solid rgba(255, 255, 255, 0.05); border-radius: 0px 8px 8px 8px; }
 /* 你发的气泡颜色：亮白色底，黑字。右上角不是圆角。 */
 .sender .msg-bubble { background: rgba(245, 245, 245, 0.95); color: #1a1a1a; font-weight: 500; border-radius: 8px 0px 8px 8px; }
