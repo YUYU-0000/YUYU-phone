@@ -649,7 +649,7 @@ const AppUI = {
   appendSysMsg(screenId, text) {
     const roleId = screenId.replace('chatScreen-', '');
     const msgArea = document.getElementById(screenId).querySelector('.chat-messages'); const { ts, timeStr } = this.getMsgTimeInfo();
-    const html = `<div class="msg-row receiver sys-msg" data-timestamp="${ts}"><div class="avatar-col">${this.getAvatarHtml(false, roleId)}<span class="msg-time">${timeStr}</span></div><div class="msg-content"><div class="msg-bubble">${text}</div></div></div>`;
+    const html = `<div class="msg-row receiver sys-msg" data-timestamp="${ts}"><div class="avatar-col">${this.getAvatarHtml(false, roleId)}<span class="msg-time">${timeStr}</span></div><div class="msg-content"><div class="msg-bubble">${Utils.escapeHTML(text)}</div></div></div>`;
     msgArea.insertAdjacentHTML('beforeend', html); setTimeout(() => msgArea.scrollTop = msgArea.scrollHeight, 50); AppState.saveChatRecord(msgArea.id);
     if (!document.getElementById(screenId).classList.contains('active')) this.accumulateUnread(screenId);
   },
@@ -948,7 +948,7 @@ const AppEvents = {
     },
     recallMessage() {
       const { activeTargetRow } = AppState.getState(); if(!activeTargetRow) return;
-      let t = activeTargetRow.querySelector('.msg-bubble')?.innerText || ''; if(t.includes('引用\n')) t = t.split('引用\n')[1].trim(); 
+      let bubble = activeTargetRow.querySelector('.msg-bubble'); if (!bubble) return; let clone = bubble.cloneNode(true); clone.querySelectorAll('.quote-ref, div[style*="border-left: 2px solid #f2c94c"]').forEach(q => q.remove()); let t = clone.innerText.trim(); 
       activeTargetRow.className = 'msg-row sys-msg'; activeTargetRow.style.justifyContent = 'center'; 
       
       // 对文本内容进行 XSS 转义，防止直接注入攻击
